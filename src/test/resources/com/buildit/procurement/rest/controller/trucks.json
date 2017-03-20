@@ -1,0 +1,4 @@
+[{"_id":13,"name":"D-Truck","description":"15 Tonne Articulating Dump Truck","price":250.00,
+  "_links":{"self":{"href":"http://localhost:8090/api/inventory/plants/13"}}},
+  {"_id":14,"name":"D-Truck","description":"30 Tonne Articulating Dump Truck","price":300.00,
+    "_links":{"self":{"href":"http://localhost:8090/api/inventory/plants/14"}}}]
