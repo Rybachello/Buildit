@@ -2,6 +2,7 @@ package com.buildit.rental.application.services;
 
 import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * Created by minhi_000 on 17.03.2017.
  */
+@Service
 public class RentalService {
     @Autowired
     RestTemplate restTemplate;
