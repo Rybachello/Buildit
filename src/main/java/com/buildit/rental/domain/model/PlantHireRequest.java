@@ -22,4 +22,10 @@ public class PlantHireRequest {
     @Enumerated(EnumType.STRING)
     POStatus status;
 
+    @Embedded
+    PlantInventoryEntry plantInventoryEntryId;
+
+    @Embedded
+    PurchaseOrder purchaseOrderId;
+
 }
