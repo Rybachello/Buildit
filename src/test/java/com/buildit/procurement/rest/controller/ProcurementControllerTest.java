@@ -3,6 +3,7 @@ package com.buildit.procurement.rest.controller;
 import com.buildit.ProcurementApplication;
 import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
 import com.buildit.rental.application.services.RentalService;
+import com.buildit.rental.domain.model.PlantInventoryEntry;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -26,6 +27,8 @@ import org.springframework.web.context.WebApplicationContext;
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -73,7 +76,9 @@ public class ProcurementControllerTest {
                 get("/api/procurements/plants?name=Truck&startDate={start}&endDate={end}", startDate, endDate))
                 .andExpect(status().isOk())
                 .andReturn();
-        // Add test expectations
+        List<PlantInventoryEntryDTO> plantInventoryEntryDTOs = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<PlantInventoryEntryDTO>>() {
+        });
+        assertEquals(list, plantInventoryEntryDTOs);
     }
 }
 
