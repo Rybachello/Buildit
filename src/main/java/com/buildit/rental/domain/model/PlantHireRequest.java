@@ -23,9 +23,9 @@ public class PlantHireRequest {
     POStatus status;
 
     @Embedded
-    PlantInventoryEntry plantInventoryEntryId;
+    PlantInventoryEntry plantInventoryEntry;
 
     @Embedded
-    PurchaseOrder purchaseOrderId;
+    PurchaseOrder purchaseOrder;
 
 }

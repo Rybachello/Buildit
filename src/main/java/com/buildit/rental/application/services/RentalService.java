@@ -4,6 +4,10 @@ import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
 import com.buildit.rental.domain.dto.PurchaseOrderDTO;
 import com.buildit.rental.domain.model.PurchaseOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,12 +31,10 @@ public class RentalService {
     }
 
     public PurchaseOrderDTO createPurchaseOrder(String name, LocalDate startDate, LocalDate endDate) {
-        //todo: finish here
         PurchaseOrderDTO purchaseOrderDTO = restTemplate.getForObject(
                 "http://localhost:8090/api/sales/orders?name={name}&startDate={start}&endDate={end}",
                 PurchaseOrderDTO.class,name,startDate,endDate);
-
-        //todo: somehow handle links?
         return purchaseOrderDTO;
     }
+    //todo: querying POs, closing/resubmitting POs
 }

@@ -1,10 +1,14 @@
 package com.buildit.procurement.application.dto;
 
+import com.buildit.common.domain.model.BusinessPeriod;
 import com.buildit.common.rest.ResourceSupport;
 import com.buildit.rental.domain.model.POStatus;
+import com.buildit.rental.domain.model.PlantInventoryEntry;
+import com.buildit.rental.domain.model.PurchaseOrder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.Embedded;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
@@ -14,7 +18,14 @@ import javax.persistence.Enumerated;
 @Data
 @EqualsAndHashCode
 public class PlantHireRequestDTO extends ResourceSupport {
-    //todo: complete here
+
     @Enumerated(EnumType.STRING)
     POStatus status;
+    @Embedded
+    BusinessPeriod rentalPeriod;
+    @Embedded
+    PlantInventoryEntry plantInventoryEntry;
+    @Embedded
+    PurchaseOrder purchaseOrder;
+
 }

@@ -3,6 +3,8 @@ package com.buildit.procurement.application.controller;
 import com.buildit.ProcurementApplication;
 import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
 import com.buildit.rental.application.services.RentalService;
+import com.buildit.rental.domain.dto.PurchaseOrderDTO;
+import com.buildit.rental.domain.model.PurchaseOrder;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -79,9 +81,24 @@ public class ProcurementControllerTest {
         });
         assertEquals(list, plantInventoryEntryDTOs);
     }
+
     @Test
-    public void testCreationPlanHireRequest() throws Exception{
-        //todo: inplement test
+    public void testCreationPlanHireRequest() throws Exception {
+        Resource responseBody = new ClassPathResource("purchaseOrder.json", this.getClass());
+        PurchaseOrderDTO mockedPurchaseOrderDTO =
+                mapper.readValue(responseBody.getFile(), new TypeReference<PurchaseOrderDTO>() {
+                });
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = startDate.plusDays(2);
+        when(rentalService.createPurchaseOrder("Truck", startDate, endDate)).thenReturn(mockedPurchaseOrderDTO);
+        MvcResult result = mockMvc.perform(
+                get("/api/procurements/plants?name=Truck&startDate={start}&endDate={end}", startDate, endDate))
+                .andExpect(status().isOk())
+                .andReturn();
+        PurchaseOrderDTO purchaseOrderDTO = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<PurchaseOrderDTO>() {
+        });
+        assertEquals(mockedPurchaseOrderDTO, purchaseOrderDTO);
+
     }
 }
 

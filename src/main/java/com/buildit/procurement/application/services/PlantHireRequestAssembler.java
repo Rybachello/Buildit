@@ -20,8 +20,14 @@ public class PlantHireRequestAssembler extends ResourceAssemblerSupport<PlantHir
     }
 
     @Override
-    public PlantHireRequestDTO toResource(PlantHireRequest purchaseOrder) {
-        //todo: finish here
-        return null;
+    public PlantHireRequestDTO toResource(PlantHireRequest plantHireRequest) {
+        PlantHireRequestDTO plantHireRequestDTO = new PlantHireRequestDTO();
+
+        plantHireRequestDTO.setStatus(plantHireRequest.getStatus());
+        plantHireRequestDTO.setRentalPeriod(plantHireRequest.getRentalPeriod());
+        plantHireRequestDTO.setPlantInventoryEntry(plantHireRequest.getPlantInventoryEntry());
+        plantHireRequestDTO.setPurchaseOrder(plantHireRequest.getPurchaseOrder());
+
+        return plantHireRequestDTO;
     }
 }

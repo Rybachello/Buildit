@@ -1,0 +1,36 @@
+{
+  "_id": "b7d27b55-0541-4b46-9489-28956c54146f",
+  "name": null,
+  "status": "OPEN",
+  "rentalPeriod": {
+    "startDate": "2016-09-22",
+    "endDate": "2016-09-24",
+    "_xlinks": []
+  },
+  "total": 450,
+  "description": null,
+  "plant": {
+    "_id": "1",
+    "name": "Mini excavator",
+    "description": "1.5 Tonne Mini excavator",
+    "price": 150,
+    "_links": {
+      "self": {
+        "href": "http://localhost:8080/1"
+      }
+    },
+    "_xlinks": []
+  },
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/b7d27b55-0541-4b46-9489-28956c54146f"
+    }
+  },
+  "_xlinks": [
+    {
+      "href": "http://localhost:8080/api/sales/orders/b7d27b55-0541-4b46-9489-28956c54146f",
+      "method": "DELETE",
+      "_rel": "close"
+    }
+  ]
+}

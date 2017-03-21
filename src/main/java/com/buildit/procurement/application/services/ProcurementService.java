@@ -2,11 +2,14 @@ package com.buildit.procurement.application.services;
 
 import com.buildit.common.domain.infastructure.IdentifierFactory;
 import com.buildit.common.domain.model.BusinessPeriod;
+import com.buildit.common.rest.ExtendedLink;
 import com.buildit.procurement.application.dto.PlantHireRequestDTO;
 import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
 import com.buildit.rental.application.services.RentalService;
 import com.buildit.rental.domain.dto.PurchaseOrderDTO;
+import com.buildit.rental.domain.model.POStatus;
 import com.buildit.rental.domain.model.PlantHireRequest;
+import com.buildit.rental.domain.model.PlantInventoryEntry;
 import com.buildit.rental.domain.model.PurchaseOrder;
 import com.buildit.rental.domain.repository.PlantHireRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +39,19 @@ public class ProcurementService {
 
         PurchaseOrderDTO purchaseOrderDTO = rentalService.createPurchaseOrder(name,startDate,endDate);
 
-        PlantHireRequest plantHireRequest = PlantHireRequest.of(IdentifierFactory.nextID(), BusinessPeriod.of(startDate,endDate),null,null,null);
+        String nextId = IdentifierFactory.nextID();
+        BusinessPeriod rentalPeriod = BusinessPeriod.of(startDate, endDate);
+        POStatus status = purchaseOrderDTO.getStatus();
+        //todo: what the name in params?
+        //todo: what the links ???
+        List<ExtendedLink> links = purchaseOrderDTO.get_xlinks();
+        PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(name,links.get(0).toString());
+        //todo: need to put right link
+        PurchaseOrder purchaseOrder = PurchaseOrder.of(links.get(1).toString());
+        //create PHR
+        PlantHireRequest plantHireRequest = PlantHireRequest.of(nextId,rentalPeriod,status,plantInventoryEntry,purchaseOrder);
 
-        //todo: save links from rental service
         plantHireRequestRepository.save(plantHireRequest);
-        //save to dto
-        return plantHireRequestAssembler.toResource(plantHireRequest);
+        return plantHireRequestAssembler.toResource(plantHireRequest);//convert to dto
     }
 }
