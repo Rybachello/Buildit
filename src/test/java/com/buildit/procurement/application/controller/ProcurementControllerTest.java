@@ -1,9 +1,8 @@
-package com.buildit.procurement.rest.controller;
+package com.buildit.procurement.application.controller;
 
 import com.buildit.ProcurementApplication;
 import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
 import com.buildit.rental.application.services.RentalService;
-import com.buildit.rental.domain.model.PlantInventoryEntry;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -79,6 +78,10 @@ public class ProcurementControllerTest {
         List<PlantInventoryEntryDTO> plantInventoryEntryDTOs = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<PlantInventoryEntryDTO>>() {
         });
         assertEquals(list, plantInventoryEntryDTOs);
+    }
+    @Test
+    public void testCreationPlanHireRequest() throws Exception{
+        //todo: inplement test
     }
 }
 
