@@ -21,6 +21,7 @@ public class PlantHireRequestDTO extends ResourceSupport {
 
     @Enumerated(EnumType.STRING)
     POStatus status;
+    //TODO DTO
     @Embedded
     BusinessPeriod rentalPeriod;
     @Embedded

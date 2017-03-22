@@ -13,6 +13,8 @@ public class PlantInventoryEntryDTO extends ResourceSupport{
 
     String planInventoryEntryHref;
 
+    public PlantInventoryEntryDTO(){}
+
     public PlantInventoryEntryDTO(String name, String planInventoryEntryHref){
         this.name = name;
         this.planInventoryEntryHref = planInventoryEntryHref;

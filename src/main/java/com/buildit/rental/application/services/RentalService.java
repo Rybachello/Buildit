@@ -1,5 +1,7 @@
 package com.buildit.rental.application.services;
 
+import com.buildit.common.domain.model.BusinessPeriod;
+import com.buildit.rental.application.dto.PurchaseOrderDTO;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
 import com.buildit.rental.application.dto.RentITPurchaseOrderDTO;
 import com.buildit.rental.domain.model.PurchaseOrder;
@@ -27,14 +29,21 @@ public class RentalService {
     }
 
     public RentITPurchaseOrderDTO createPurchaseOrder(String name, LocalDate startDate, LocalDate endDate) {
-        RentITPurchaseOrderDTO rentITPurchaseOrderDTO = restTemplate.getForObject(
-                "http://localhost:8090/api/sales/orders?name={name}&startDate={start}&endDate={end}",
-                RentITPurchaseOrderDTO.class,name,startDate,endDate);
+        RentITPurchaseOrderDTO reqDTO = new RentITPurchaseOrderDTO();
+        reqDTO.setName(name);
+        reqDTO.setRentalPeriod(BusinessPeriod.of(startDate, endDate));
+        RentITPurchaseOrderDTO rentITPurchaseOrderDTO = restTemplate.postForObject(
+                "http://localhost:8090/api/sales/orders",
+                reqDTO,
+                RentITPurchaseOrderDTO.class);
         return rentITPurchaseOrderDTO;
     }
     public List<PurchaseOrder> findAllPurchaseOrders()
     {
-        //todo:querying POs
+        RentITPurchaseOrderDTO rentITPurchaseOrderDTO = restTemplate.getForObject(
+                "http://localhost:8090/api/sales/orders",
+                RentITPurchaseOrderDTO.class);
+        //return rentITPurchaseOrderDTO;
         return null;
     }
     public PurchaseOrder closePurchaseOrder()
