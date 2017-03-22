@@ -49,6 +49,4 @@ public class ProcurementRestController {
                     period.getStartDate(),
                     period.getEndDate());
     }
-
-
 }

@@ -1,6 +1,10 @@
 package com.buildit.procurement.rest.controller;
 
 import com.buildit.ProcurementApplication;
+import com.buildit.common.dto.BusinessPeriodDTO;
+import com.buildit.procurement.application.dto.PlantHireRequestDTO;
+import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
+import com.buildit.rental.application.dto.PurchaseOrderDTO;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
 import com.buildit.rental.application.services.RentalService;
 import com.buildit.rental.application.dto.RentITPurchaseOrderDTO;
@@ -17,6 +21,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,6 +36,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -82,22 +88,23 @@ public class ProcurementControllerTest {
     }
 
     @Test
-    public void testCreationPlanHireRequest() throws Exception {
+    public void testCreatePOandCreatePHR() throws Exception {
         Resource responseBody = new ClassPathResource("purchaseOrder.json", this.getClass());
-        RentITPurchaseOrderDTO mockedPurchaseOrderDTO =
+        RentITPurchaseOrderDTO newlyCreated =
                 mapper.readValue(responseBody.getFile(), new TypeReference<RentITPurchaseOrderDTO>() {
                 });
-        LocalDate startDate = LocalDate.now();
-        LocalDate endDate = startDate.plusDays(2);
-        when(rentalService.createPurchaseOrder("Truck", startDate, endDate)).thenReturn(mockedPurchaseOrderDTO);
-        MvcResult result = mockMvc.perform(
-                get("/api/procurements/plants?name=Truck&startDate={start}&endDate={end}", startDate, endDate))
-                .andExpect(status().isOk())
-                .andReturn();
-        RentITPurchaseOrderDTO rentITPurchaseOrderDTO = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<RentITPurchaseOrderDTO>() {
-        });
-        assertEquals(mockedPurchaseOrderDTO, rentITPurchaseOrderDTO);
 
+        when(rentalService.createPurchaseOrder("1", newlyCreated.getRentalPeriod().getStartDate(), newlyCreated.getRentalPeriod().getEndDate())).thenReturn(newlyCreated);
+
+        PlantHireRequestDTO plantHireRequestDTO = new PlantHireRequestDTO();
+        plantHireRequestDTO.setRentalPeriod(BusinessPeriodDTO.of(newlyCreated.getRentalPeriod().getStartDate(),newlyCreated.getRentalPeriod().getEndDate()));
+        plantHireRequestDTO.setPlantInvEntryDTO(new PlantInventoryEntryDTO( newlyCreated.getPlant().get_id(),null, null));
+
+        mockMvc.perform(
+                post("/api/procurements/requests")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsBytes(plantHireRequestDTO)))
+                        .andExpect(status().isOk());
     }
 }
 
