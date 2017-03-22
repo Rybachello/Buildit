@@ -17,5 +17,5 @@ public class RentITPurchaseOrderDTO extends ResourceSupport {
     private POStatus status;
     private BusinessPeriod rentalPeriod;
     private BigDecimal total;
-    private PlantInventoryEntryDTO plant;
+    private RentITPlantInventoryEntryDTO plant;
 }

@@ -17,7 +17,12 @@ import javax.persistence.Id;
 @AllArgsConstructor(staticName = "of")
 public class PlantInventoryEntry {
 
-    String name;
+    public PlantInventoryEntry() {
+        this._id = null;
+        this.planInventoryEntryHref = null;
+    }
+
+    String _id;
 
     String planInventoryEntryHref;
 

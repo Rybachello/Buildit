@@ -9,13 +9,16 @@ import lombok.Data;
 @Data
 public class PlantInventoryEntryDTO extends ResourceSupport{
 
+    String _id;
+
     String name;
 
     String planInventoryEntryHref;
 
     public PlantInventoryEntryDTO(){}
 
-    public PlantInventoryEntryDTO(String name, String planInventoryEntryHref){
+    public PlantInventoryEntryDTO(String id, String name, String planInventoryEntryHref){
+        this._id = id;
         this.name = name;
         this.planInventoryEntryHref = planInventoryEntryHref;
     }

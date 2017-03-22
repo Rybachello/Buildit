@@ -26,7 +26,7 @@ public class PlantHireRequestDTO extends ResourceSupport {
     @Embedded
     BusinessPeriodDTO rentalPeriod;
     @Embedded
-    RentITPlantInventoryEntryDTO plantInvEntryDTO;
+    PlantInventoryEntryDTO plantInvEntryDTO;
 //    @Embedded
 //    PurchaseOrderDTO purchaseOrderDTO;
 }

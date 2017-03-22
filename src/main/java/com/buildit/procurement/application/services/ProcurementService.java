@@ -35,22 +35,17 @@ public class ProcurementService {
         return rentalService.findAvailablePlants(name, startDate, endDate);
     }
 
-    public PlantHireRequestDTO createPlantHireRequest(String name, LocalDate startDate, LocalDate endDate) {
+    public PlantHireRequestDTO createPlantHireRequest(String plantId, LocalDate startDate, LocalDate endDate) {
 
-        RentITPurchaseOrderDTO rentITPurchaseOrderDTO = rentalService.createPurchaseOrder(name, startDate, endDate);
+        RentITPurchaseOrderDTO rentITPurchaseOrderDTO = rentalService.createPurchaseOrder(plantId, startDate, endDate);
 
         String nextId = IdentifierFactory.nextID();
         BusinessPeriod rentalPeriod = BusinessPeriod.of(startDate, endDate);
         POStatus status = rentITPurchaseOrderDTO.getStatus();
-        //todo: what the name in params?
-        //todo: what the links ???
-        List<ExtendedLink> links = rentITPurchaseOrderDTO.get_xlinks();
-        PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(name, links.get(0).toString());
-        //todo: need to put right link
-        PurchaseOrder purchaseOrder = PurchaseOrder.of(links.get(1).toString());
-        //create PHR
+        // todo: rent it returns incorrect link to plant
+        PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(plantId, rentITPurchaseOrderDTO.getPlant().getLink("self").getHref());
+        PurchaseOrder purchaseOrder = PurchaseOrder.of(rentITPurchaseOrderDTO.getLink("self").getHref());
         PlantHireRequest plantHireRequest = PlantHireRequest.of(nextId, rentalPeriod, status, plantInventoryEntry, purchaseOrder);
-
         plantHireRequestRepository.save(plantHireRequest);
         return plantHireRequestAssembler.toResource(plantHireRequest);//convert to dto
     }

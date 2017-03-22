@@ -1,7 +1,6 @@
 package com.buildit.rental.application.services;
 
 import com.buildit.common.domain.model.BusinessPeriod;
-import com.buildit.rental.application.dto.PurchaseOrderDTO;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
 import com.buildit.rental.application.dto.RentITPurchaseOrderDTO;
 import com.buildit.rental.domain.model.PurchaseOrder;
@@ -28,9 +27,9 @@ public class RentalService {
         return Arrays.asList(plants);
     }
 
-    public RentITPurchaseOrderDTO createPurchaseOrder(String name, LocalDate startDate, LocalDate endDate) {
+    public RentITPurchaseOrderDTO createPurchaseOrder(String plantId, LocalDate startDate, LocalDate endDate) {
         RentITPurchaseOrderDTO reqDTO = new RentITPurchaseOrderDTO();
-        reqDTO.setName(name);
+        reqDTO.setPlant(new RentITPlantInventoryEntryDTO(plantId,null,null,null));
         reqDTO.setRentalPeriod(BusinessPeriod.of(startDate, endDate));
         RentITPurchaseOrderDTO rentITPurchaseOrderDTO = restTemplate.postForObject(
                 "http://localhost:8090/api/sales/orders",

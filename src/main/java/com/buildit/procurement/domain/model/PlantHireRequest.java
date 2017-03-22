@@ -6,6 +6,7 @@ import com.buildit.rental.domain.model.PlantInventoryEntry;
 import com.buildit.rental.domain.model.PurchaseOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -15,6 +16,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @AllArgsConstructor(staticName = "of")
+@NoArgsConstructor
 public class PlantHireRequest {
     @Id
     String id;

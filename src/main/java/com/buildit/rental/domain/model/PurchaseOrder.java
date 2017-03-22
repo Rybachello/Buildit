@@ -15,6 +15,11 @@ import javax.persistence.Id;
 @Embeddable
 @Value
 @AllArgsConstructor(staticName = "of")
+
 public class PurchaseOrder {
     String purchaseOrderHref;
+
+    public PurchaseOrder() {
+        this.purchaseOrderHref = null;
+    }
 }
