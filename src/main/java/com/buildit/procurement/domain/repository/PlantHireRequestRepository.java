@@ -1,6 +1,6 @@
-package com.buildit.rental.domain.repository;
+package com.buildit.procurement.domain.repository;
 
-import com.buildit.rental.domain.model.PlantHireRequest;
+import com.buildit.procurement.domain.model.PlantHireRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

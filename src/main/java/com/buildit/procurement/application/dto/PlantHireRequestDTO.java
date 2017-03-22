@@ -2,6 +2,10 @@ package com.buildit.procurement.application.dto;
 
 import com.buildit.common.domain.model.BusinessPeriod;
 import com.buildit.common.rest.ResourceSupport;
+import com.buildit.rental.application.dto.PlantInvEntryDTO;
+import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
+import com.buildit.rental.application.dto.PurchaseOrderDTO;
+import com.buildit.rental.application.dto.PurchaseOrdrDTO;
 import com.buildit.rental.domain.model.POStatus;
 import com.buildit.rental.domain.model.PlantInventoryEntry;
 import com.buildit.rental.domain.model.PurchaseOrder;
@@ -24,8 +28,9 @@ public class PlantHireRequestDTO extends ResourceSupport {
     @Embedded
     BusinessPeriod rentalPeriod;
     @Embedded
-    PlantInventoryEntry plantInventoryEntry;
+    PlantInvEntryDTO plantInvEntryDTO;
     @Embedded
-    PurchaseOrder purchaseOrder;
+    PurchaseOrdrDTO purchaseOrdrDTO;
+
 
 }

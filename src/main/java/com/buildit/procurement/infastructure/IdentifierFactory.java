@@ -1,4 +1,4 @@
-package com.buildit.common.domain.infastructure;
+package com.buildit.procurement.infastructure;
 
 import org.springframework.stereotype.Service;
 

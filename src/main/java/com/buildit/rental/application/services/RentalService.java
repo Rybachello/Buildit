@@ -1,13 +1,9 @@
 package com.buildit.rental.application.services;
 
 import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
-import com.buildit.rental.domain.dto.PurchaseOrderDTO;
+import com.buildit.rental.application.dto.PurchaseOrderDTO;
 import com.buildit.rental.domain.model.PurchaseOrder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -36,5 +32,19 @@ public class RentalService {
                 PurchaseOrderDTO.class,name,startDate,endDate);
         return purchaseOrderDTO;
     }
-    //todo: querying POs, closing/resubmitting POs
+    public List<PurchaseOrder> findAllPurchaseOrders()
+    {
+        //todo:querying POs
+        return null;
+    }
+    public PurchaseOrder closePurchaseOrder()
+    {
+        //todo:closing POs
+        return null;
+    }
+    public PurchaseOrder resubmittingPurchaseOrder()
+    {
+        //todo:resubmitting POs
+        return null;
+    }
 }

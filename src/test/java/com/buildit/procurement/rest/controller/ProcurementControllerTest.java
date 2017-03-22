@@ -1,10 +1,9 @@
-package com.buildit.procurement.application.controller;
+package com.buildit.procurement.rest.controller;
 
 import com.buildit.ProcurementApplication;
 import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
 import com.buildit.rental.application.services.RentalService;
-import com.buildit.rental.domain.dto.PurchaseOrderDTO;
-import com.buildit.rental.domain.model.PurchaseOrder;
+import com.buildit.rental.application.dto.PurchaseOrderDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;

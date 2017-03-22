@@ -1,8 +1,10 @@
 package com.buildit.procurement.application.services;
 
 import com.buildit.procurement.application.dto.PlantHireRequestDTO;
-import com.buildit.rental.domain.model.PlantHireRequest;
-import com.buildit.rental.domain.repository.PlantHireRequestRepository;
+import com.buildit.procurement.domain.model.PlantHireRequest;
+import com.buildit.procurement.domain.repository.PlantHireRequestRepository;
+import com.buildit.rental.application.dto.PlantInvEntryDTO;
+import com.buildit.rental.application.dto.PurchaseOrdrDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Service;
@@ -25,8 +27,8 @@ public class PlantHireRequestAssembler extends ResourceAssemblerSupport<PlantHir
 
         plantHireRequestDTO.setStatus(plantHireRequest.getStatus());
         plantHireRequestDTO.setRentalPeriod(plantHireRequest.getRentalPeriod());
-        plantHireRequestDTO.setPlantInventoryEntry(plantHireRequest.getPlantInventoryEntry());
-        plantHireRequestDTO.setPurchaseOrder(plantHireRequest.getPurchaseOrder());
+        plantHireRequestDTO.setPlantInvEntryDTO(new PlantInvEntryDTO(plantHireRequest.getPlantInventoryEntry().getName(),plantHireRequest.getPlantInventoryEntry().getPlanInventoryEntryHref()));
+        plantHireRequestDTO.setPurchaseOrdrDTO(new PurchaseOrdrDTO(plantHireRequest.getPurchaseOrder().getPurchaseOrderHref()));
 
         return plantHireRequestDTO;
     }
