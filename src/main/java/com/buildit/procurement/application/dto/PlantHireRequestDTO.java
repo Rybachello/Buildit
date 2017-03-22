@@ -1,6 +1,7 @@
 package com.buildit.procurement.application.dto;
 
 import com.buildit.common.domain.model.BusinessPeriod;
+import com.buildit.common.dto.BusinessPeriodDTO;
 import com.buildit.common.rest.ResourceSupport;
 import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
 import com.buildit.rental.application.dto.PurchaseOrderDTO;
@@ -22,9 +23,8 @@ public class PlantHireRequestDTO extends ResourceSupport {
 
     @Enumerated(EnumType.STRING)
     POStatus status;
-    //TODO DTO
     @Embedded
-    BusinessPeriod rentalPeriod;
+    BusinessPeriodDTO rentalPeriod;
     @Embedded
     RentITPlantInventoryEntryDTO plantInvEntryDTO;
 //    @Embedded
