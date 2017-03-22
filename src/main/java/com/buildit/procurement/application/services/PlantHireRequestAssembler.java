@@ -1,5 +1,6 @@
 package com.buildit.procurement.application.services;
 
+import com.buildit.common.dto.BusinessPeriodDTO;
 import com.buildit.procurement.application.dto.PlantHireRequestDTO;
 import com.buildit.procurement.domain.model.PlantHireRequest;
 import com.buildit.procurement.domain.repository.PlantHireRequestRepository;
@@ -26,7 +27,7 @@ public class PlantHireRequestAssembler extends ResourceAssemblerSupport<PlantHir
         PlantHireRequestDTO plantHireRequestDTO = new PlantHireRequestDTO();
 
         plantHireRequestDTO.setStatus(plantHireRequest.getStatus());
-        plantHireRequestDTO.setRentalPeriod(plantHireRequest.getRentalPeriod());
+        plantHireRequestDTO.setRentalPeriod(BusinessPeriodDTO.of(plantHireRequest.getRentalPeriod().getStartDate(),plantHireRequest.getRentalPeriod().getEndDate()));
         plantHireRequestDTO.setPlantInvEntryDTO(new PlantInventoryEntryDTO(plantHireRequest.getPlantInventoryEntry().getName(),plantHireRequest.getPlantInventoryEntry().getPlanInventoryEntryHref()));
         plantHireRequestDTO.setPurchaseOrderDTO(new PurchaseOrderDTO(plantHireRequest.getPurchaseOrder().getPurchaseOrderHref()));
 
