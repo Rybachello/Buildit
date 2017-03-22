@@ -1,6 +1,7 @@
 package com.buildit.procurement.rest.controller;
 
 import com.buildit.common.domain.model.BusinessPeriod;
+import com.buildit.common.dto.BusinessPeriodDTO;
 import com.buildit.procurement.application.dto.PlantHireRequestDTO;
 import com.buildit.procurement.application.services.ProcurementService;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
@@ -42,7 +43,7 @@ public class ProcurementRestController {
     @PostMapping("/orders")
     public PlantHireRequestDTO createPlantHireRequest(
             @RequestBody PlantHireRequestDTO request){
-            BusinessPeriod period = request.getRentalPeriod();
+            BusinessPeriodDTO period = request.getRentalPeriod();
             return procurementService.createPlantHireRequest(
                     request.getPlantInvEntryDTO().getName(),
                     period.getStartDate(),
