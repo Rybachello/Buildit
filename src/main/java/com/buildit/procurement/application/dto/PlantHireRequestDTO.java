@@ -4,6 +4,7 @@ import com.buildit.common.domain.model.BusinessPeriod;
 import com.buildit.common.rest.ResourceSupport;
 import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
 import com.buildit.rental.application.dto.PurchaseOrderDTO;
+import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
 import com.buildit.rental.domain.model.POStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,9 +26,7 @@ public class PlantHireRequestDTO extends ResourceSupport {
     @Embedded
     BusinessPeriod rentalPeriod;
     @Embedded
-    PlantInventoryEntryDTO plantInvEntryDTO;
-    @Embedded
-    PurchaseOrderDTO purchaseOrderDTO;
-
-
+    RentITPlantInventoryEntryDTO plantInvEntryDTO;
+//    @Embedded
+//    PurchaseOrderDTO purchaseOrderDTO;
 }
