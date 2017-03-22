@@ -40,7 +40,7 @@ public class ProcurementRestController {
                             plantName.get(), startDate.get(), endDate.get()));
     }
 
-    @PostMapping("/orders")
+    @PostMapping("/requests")
     public PlantHireRequestDTO createPlantHireRequest(
             @RequestBody PlantHireRequestDTO request){
             BusinessPeriodDTO period = request.getRentalPeriod();
