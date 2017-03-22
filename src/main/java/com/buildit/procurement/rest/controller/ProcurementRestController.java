@@ -2,7 +2,7 @@ package com.buildit.procurement.rest.controller;
 
 import com.buildit.procurement.application.dto.PlantHireRequestDTO;
 import com.buildit.procurement.application.services.ProcurementService;
-import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
+import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ public class ProcurementRestController {
 
 
     @GetMapping("/plants")
-    public List<PlantInventoryEntryDTO> findAvailablePlants(
+    public List<RentITPlantInventoryEntryDTO> findAvailablePlants(
             @RequestParam(name = "name", required = false) Optional<String> plantName,
             @RequestParam(name = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> startDate,
             @RequestParam(name = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> endDate) {

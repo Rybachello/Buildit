@@ -1,9 +1,9 @@
 package com.buildit.procurement.rest.controller;
 
 import com.buildit.ProcurementApplication;
-import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
+import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
 import com.buildit.rental.application.services.RentalService;
-import com.buildit.rental.application.dto.PurchaseOrderDTO;
+import com.buildit.rental.application.dto.RentITPurchaseOrderDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -66,8 +66,8 @@ public class ProcurementControllerTest {
     @Test
     public void testGetAllPlants() throws Exception {
         Resource responseBody = new ClassPathResource("trucks.json", this.getClass());
-        List<PlantInventoryEntryDTO> list =
-                mapper.readValue(responseBody.getFile(), new TypeReference<List<PlantInventoryEntryDTO>>() {
+        List<RentITPlantInventoryEntryDTO> list =
+                mapper.readValue(responseBody.getFile(), new TypeReference<List<RentITPlantInventoryEntryDTO>>() {
                 });
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = startDate.plusDays(2);
@@ -76,16 +76,16 @@ public class ProcurementControllerTest {
                 get("/api/procurements/plants?name=Truck&startDate={start}&endDate={end}", startDate, endDate))
                 .andExpect(status().isOk())
                 .andReturn();
-        List<PlantInventoryEntryDTO> plantInventoryEntryDTOs = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<PlantInventoryEntryDTO>>() {
+        List<RentITPlantInventoryEntryDTO> rentITPlantInventoryEntryDTOS = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<RentITPlantInventoryEntryDTO>>() {
         });
-        assertEquals(list, plantInventoryEntryDTOs);
+        assertEquals(list, rentITPlantInventoryEntryDTOS);
     }
 
     @Test
     public void testCreationPlanHireRequest() throws Exception {
         Resource responseBody = new ClassPathResource("purchaseOrder.json", this.getClass());
-        PurchaseOrderDTO mockedPurchaseOrderDTO =
-                mapper.readValue(responseBody.getFile(), new TypeReference<PurchaseOrderDTO>() {
+        RentITPurchaseOrderDTO mockedPurchaseOrderDTO =
+                mapper.readValue(responseBody.getFile(), new TypeReference<RentITPurchaseOrderDTO>() {
                 });
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = startDate.plusDays(2);
@@ -94,9 +94,9 @@ public class ProcurementControllerTest {
                 get("/api/procurements/plants?name=Truck&startDate={start}&endDate={end}", startDate, endDate))
                 .andExpect(status().isOk())
                 .andReturn();
-        PurchaseOrderDTO purchaseOrderDTO = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<PurchaseOrderDTO>() {
+        RentITPurchaseOrderDTO rentITPurchaseOrderDTO = mapper.readValue(result.getResponse().getContentAsString(), new TypeReference<RentITPurchaseOrderDTO>() {
         });
-        assertEquals(mockedPurchaseOrderDTO, purchaseOrderDTO);
+        assertEquals(mockedPurchaseOrderDTO, rentITPurchaseOrderDTO);
 
     }
 }
