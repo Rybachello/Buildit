@@ -3,6 +3,7 @@ package com.buildit.procurement.application.services;
 import com.buildit.common.domain.model.BusinessPeriod;
 import com.buildit.common.rest.ExtendedLink;
 import com.buildit.procurement.application.dto.PlantHireRequestDTO;
+import com.buildit.procurement.domain.model.PHRStatus;
 import com.buildit.procurement.infastructure.IdentifierFactory;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
 import com.buildit.rental.application.services.RentalService;
@@ -41,11 +42,11 @@ public class ProcurementService {
 
         String nextId = IdentifierFactory.nextID();
         BusinessPeriod rentalPeriod = BusinessPeriod.of(startDate, endDate);
-        POStatus status = rentITPurchaseOrderDTO.getStatus();
+        PHRStatus status = PHRStatus.ACCEPTED;
         // todo: rent it returns incorrect link to plant
         PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(plantId, rentITPurchaseOrderDTO.getPlant().getLink("self").getHref());
         PurchaseOrder purchaseOrder = PurchaseOrder.of(rentITPurchaseOrderDTO.getLink("self").getHref());
-        PlantHireRequest plantHireRequest = PlantHireRequest.of(nextId, rentalPeriod, status, plantInventoryEntry, purchaseOrder);
+        PlantHireRequest plantHireRequest = PlantHireRequest.of(nextId, status, rentalPeriod, plantInventoryEntry, purchaseOrder, "", "", "", null, null, rentITPurchaseOrderDTO.getTotal());
         plantHireRequestRepository.save(plantHireRequest);
         return plantHireRequestAssembler.toResource(plantHireRequest);//convert to dto
     }

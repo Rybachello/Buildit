@@ -3,6 +3,7 @@ package com.buildit.procurement.application.dto;
 import com.buildit.common.domain.model.BusinessPeriod;
 import com.buildit.common.dto.BusinessPeriodDTO;
 import com.buildit.common.rest.ResourceSupport;
+import com.buildit.procurement.domain.model.PHRStatus;
 import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
 import com.buildit.rental.application.dto.PurchaseOrderDTO;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
@@ -22,7 +23,7 @@ import javax.persistence.Enumerated;
 public class PlantHireRequestDTO extends ResourceSupport {
 
     @Enumerated(EnumType.STRING)
-    POStatus status;
+    PHRStatus status;
     @Embedded
     BusinessPeriodDTO rentalPeriod;
     @Embedded

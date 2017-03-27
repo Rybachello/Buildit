@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 /**
  * Created by minhi_000 on 20.03.2017.
@@ -21,15 +22,23 @@ public class PlantHireRequest {
     @Id
     String id;
 
-    BusinessPeriod rentalPeriod;
-
     @Enumerated(EnumType.STRING)
-    POStatus status;
+    PHRStatus status;
 
+    @Embedded
+    BusinessPeriod rentalPeriod;
     @Embedded
     PlantInventoryEntry plantInventoryEntry;
-
     @Embedded
     PurchaseOrder purchaseOrder;
+
+    String constructionSite;
+    String supplier;
+    String comments;
+
+    Person requestedBy; // site engineer
+    Person reviewedBy; // works engineer
+
+    BigDecimal cost;
 
 }
