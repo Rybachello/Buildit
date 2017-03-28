@@ -89,8 +89,14 @@ public class ProcurementRestController {
     }
 
     @DeleteMapping("/requests/{id}/accept")
-    public ResponseEntity<PlantHireRequest> rejectPlantHireRequest(@PathVariable String id) {
-                // TODO: reject PHR
-        return null;
+    public ResponseEntity<PlantHireRequestDTO> rejectPlantHireRequest(@PathVariable String id) throws PlantHireRequestNotFoundException {
+        PlantHireRequestDTO plantHireRequestDTO = procurementService.getPlantHireRequestById(id);
+
+        PlantHireRequestDTO updatedDTO = procurementService.rejectPlantHireRequest(plantHireRequestDTO);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create(updatedDTO.getId().getHref()));
+
+        return new ResponseEntity<PlantHireRequestDTO>(updatedDTO, headers, HttpStatus.OK);
     }
 }

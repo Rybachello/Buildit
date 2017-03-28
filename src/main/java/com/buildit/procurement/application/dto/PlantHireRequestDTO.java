@@ -22,6 +22,7 @@ import javax.persistence.Enumerated;
 @EqualsAndHashCode
 public class PlantHireRequestDTO extends ResourceSupport {
 
+    String _id;
     @Enumerated(EnumType.STRING)
     PHRStatus status;
     @Embedded

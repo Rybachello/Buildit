@@ -41,4 +41,7 @@ public class PlantHireRequest {
 
     BigDecimal cost;
 
+    public void reject() {
+        this.status = PHRStatus.REJECTED;
+    }
 }
