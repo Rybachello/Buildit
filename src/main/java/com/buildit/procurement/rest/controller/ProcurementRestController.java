@@ -67,7 +67,7 @@ public class ProcurementRestController {
     }
 
     @GetMapping("/requests/{id}")
-    public ResponseEntity<PlantHireRequestDTO> getPlantHireRequesst(@PathVariable String id) throws PlantHireRequestNotFoundException {
+    public ResponseEntity<PlantHireRequestDTO> getPlantHireRequest(@PathVariable String id) throws PlantHireRequestNotFoundException {
         PlantHireRequestDTO plantHireRequestDTO = procurementService.getPlantHireRequestById(id);
 
         HttpHeaders headers = new HttpHeaders();
