@@ -71,6 +71,7 @@ public class ProcurementService {
         return plantHireRequestAssembler.toResource(plantHireRequest);//convert to dto
     }
 
+
     public PlantHireRequestDTO acceptPlantHireRequest(String phrId) {
 
         PlantHireRequest phreq = plantHireRequestRepository.findOne(phrId);
@@ -82,5 +83,21 @@ public class ProcurementService {
         plantHireRequestRepository.save(phreq);
 
         return plantHireRequestAssembler.toResource(phreq);
+    }
+
+    public PlantHireRequestDTO rejectPlantHireRequest(PlantHireRequestDTO plantHireRequestDTO) throws PlantHireRequestNotFoundException {
+        PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(plantHireRequestDTO.get_id());
+
+        if (plantHireRequest == null) {
+            throw new PlantHireRequestNotFoundException("Plant hire request not found");
+        }
+
+        plantHireRequest.reject();
+
+        plantHireRequestRepository.save(plantHireRequest);
+
+        PlantHireRequestDTO updatedDTO = plantHireRequestAssembler.toResource(plantHireRequest);
+
+        return updatedDTO;
     }
 }

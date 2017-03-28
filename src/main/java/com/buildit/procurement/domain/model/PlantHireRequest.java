@@ -36,12 +36,19 @@ public class PlantHireRequest {
     String supplier;
     String comments;
 
+    @ManyToOne
     Person requestedBy; // site engineer
+    @ManyToOne
     Person reviewedBy; // works engineer
 
     BigDecimal cost;
 
+
     public void updateStatus(PHRStatus status) {
         this.status = status;
+    }
+
+    public void reject() {
+        this.status = PHRStatus.REJECTED;
     }
 }
