@@ -51,7 +51,7 @@ public class ProcurementService {
 
         String nextId = IdentifierFactory.nextID();
         BusinessPeriod rentalPeriod = BusinessPeriod.of(startDate, endDate);
-        PHRStatus status = PHRStatus.ACCEPTED;
+        PHRStatus status = PHRStatus.PENDING;
         // todo: rent it returns incorrect link to plant
         PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(plantId, rentITPurchaseOrderDTO.getPlant().getLink("self").getHref());
         PurchaseOrder purchaseOrder = PurchaseOrder.of(rentITPurchaseOrderDTO.getLink("self").getHref());

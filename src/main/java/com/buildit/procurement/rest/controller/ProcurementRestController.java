@@ -53,12 +53,12 @@ public class ProcurementRestController {
 
     @PostMapping("/requests")
     public ResponseEntity<PlantHireRequestDTO> createPlantHireRequest(
-            @RequestBody PlantHireRequestDTO request){
-            BusinessPeriodDTO period = request.getRentalPeriod();
-            PlantHireRequestDTO plantHireRequest = procurementService.createPlantHireRequest(
-                    request.getPlantInvEntryDTO().get_id(),
-                    period.getStartDate(),
-                    period.getEndDate());
+            @RequestBody PlantHireRequestDTO request) {
+        BusinessPeriodDTO period = request.getRentalPeriod();
+        PlantHireRequestDTO plantHireRequest = procurementService.createPlantHireRequest(
+                request.getPlantInvEntryDTO().get_id(),
+                period.getStartDate(),
+                period.getEndDate());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(plantHireRequest.getId().getHref()));
@@ -78,13 +78,13 @@ public class ProcurementRestController {
 
     @PutMapping("/requests/{id}")
     public ResponseEntity<PlantHireRequestDTO> updatePlantHireRequest(@PathVariable String id, @RequestBody PlantHireRequestDTO updatedDTO) {
-                // TODO: update PHR info
+        // TODO: update PHR info
         return null;
     }
 
     @PostMapping("/requests/{id}/accept")
     public ResponseEntity<PlantHireRequest> acceptPlantHireRequest(@PathVariable String id) {
-                // TODO: accept PHR; create PO, send PO to rentit
+        // TODO: accept PHR; create PO, send PO to rentit
         return null;
     }
 
