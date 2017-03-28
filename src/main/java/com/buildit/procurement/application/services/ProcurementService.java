@@ -1,5 +1,6 @@
 package com.buildit.procurement.application.services;
 
+import com.buildit.common.application.exceptions.PlantHireRequestNotFoundException;
 import com.buildit.common.domain.model.BusinessPeriod;
 import com.buildit.common.rest.ExtendedLink;
 import com.buildit.procurement.application.dto.PlantHireRequestDTO;
@@ -34,6 +35,14 @@ public class ProcurementService {
 
     public List<RentITPlantInventoryEntryDTO> findAvailablePlants(String name, LocalDate startDate, LocalDate endDate) {
         return rentalService.findAvailablePlants(name, startDate, endDate);
+    }
+
+    public PlantHireRequestDTO getPlantHireRequestById(String id) throws PlantHireRequestNotFoundException {
+        PlantHireRequest purchaseOrder = plantHireRequestRepository.findOne(id);
+        if (purchaseOrder == null) {
+            throw new PlantHireRequestNotFoundException("Purchase order not found");
+        }
+        return plantHireRequestAssembler.toResource(purchaseOrder);
     }
 
     public PlantHireRequestDTO createPlantHireRequest(String plantId, LocalDate startDate, LocalDate endDate) {
