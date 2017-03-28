@@ -56,7 +56,7 @@ public class ProcurementRestController {
             @RequestBody PlantHireRequestDTO request) {
         BusinessPeriodDTO period = request.getRentalPeriod();
         PlantHireRequestDTO plantHireRequest = procurementService.createPlantHireRequest(
-                request.getPlantInvEntryDTO().get_id(),
+                request.getPlantInvEntryDTO(),
                 period.getStartDate(),
                 period.getEndDate());
 
