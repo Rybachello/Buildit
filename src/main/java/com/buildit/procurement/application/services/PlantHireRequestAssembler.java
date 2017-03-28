@@ -30,7 +30,7 @@ public class PlantHireRequestAssembler extends ResourceAssemblerSupport<PlantHir
     PlantHireRequestRepository plantHireRequestRepository;
 
     public PlantHireRequestAssembler() {
-        super(PlantHireRequest.class, PlantHireRequestDTO.class);
+        super(ProcurementRestController.class, PlantHireRequestDTO.class);
     }
 
     @Override
