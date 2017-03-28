@@ -100,4 +100,20 @@ public class ProcurementService {
 
         return updatedDTO;
     }
+
+
+    public PlantHireRequestDTO updatePlantHireRequestById(PlantHireRequestDTO updatedDTO) throws PlantHireRequestNotFoundException {
+
+        PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(updatedDTO.get_id());
+        if (plantHireRequest == null) {
+            throw new PlantHireRequestNotFoundException("Purchase order that need to update not found");
+        }
+        BusinessPeriod businessPeriod = BusinessPeriod.of(updatedDTO.getRentalPeriod().getStartDate(),updatedDTO.getRentalPeriod().getEndDate());
+        PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(updatedDTO.getPlantInvEntryDTO().get_id(),updatedDTO.getPlantInvEntryDTO().getPlanInventoryEntryHref());
+        plantHireRequest.resubmit(businessPeriod,plantInventoryEntry);
+        plantHireRequestRepository.flush(); //todo: do we need save here?
+        return plantHireRequestAssembler.toResource(plantHireRequest);
+
+
+    }
 }

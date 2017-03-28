@@ -77,9 +77,13 @@ public class ProcurementRestController {
     }
 
     @PutMapping("/requests/{id}")
-    public ResponseEntity<PlantHireRequestDTO> updatePlantHireRequest(@PathVariable String id, @RequestBody PlantHireRequestDTO updatedDTO) {
-                // TODO: update PHR info
-        return null;
+    public ResponseEntity<PlantHireRequestDTO> updatePlantHireRequest(@RequestBody PlantHireRequestDTO updatedDTO)  throws PlantHireRequestNotFoundException{
+        PlantHireRequestDTO plantHireRequestDTO = procurementService.updatePlantHireRequestById(updatedDTO);
+
+        HttpHeaders headers  = new HttpHeaders();
+        headers.setLocation(URI.create(plantHireRequestDTO.getId().getHref()));
+
+        return new ResponseEntity<PlantHireRequestDTO>(plantHireRequestDTO, headers, HttpStatus.OK);
     }
 
     @PostMapping("/requests/{id}/accept")
