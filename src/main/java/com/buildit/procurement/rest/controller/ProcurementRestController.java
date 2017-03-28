@@ -83,9 +83,13 @@ public class ProcurementRestController {
     }
 
     @PostMapping("/requests/{id}/accept")
-    public ResponseEntity<PlantHireRequest> acceptPlantHireRequest(@PathVariable String id) {
-        // TODO: accept PHR; create PO, send PO to rentit
-        return null;
+    public ResponseEntity<PlantHireRequestDTO> acceptPlantHireRequest(@PathVariable String id) {
+        PlantHireRequestDTO plantHireRequestDTO = procurementService.acceptPlantHireRequest(id);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create(plantHireRequestDTO.getId().getHref()));
+
+        return new ResponseEntity<PlantHireRequestDTO>(plantHireRequestDTO, headers, HttpStatus.OK);
     }
 
     @DeleteMapping("/requests/{id}/accept")
