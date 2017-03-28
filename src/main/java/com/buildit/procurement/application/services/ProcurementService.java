@@ -6,6 +6,7 @@ import com.buildit.common.rest.ExtendedLink;
 import com.buildit.procurement.application.dto.PlantHireRequestDTO;
 import com.buildit.procurement.domain.model.PHRStatus;
 import com.buildit.procurement.infastructure.IdentifierFactory;
+import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
 import com.buildit.rental.application.services.RentalService;
 import com.buildit.rental.application.dto.RentITPurchaseOrderDTO;
@@ -17,6 +18,7 @@ import com.buildit.procurement.domain.repository.PlantHireRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -45,18 +47,40 @@ public class ProcurementService {
         return plantHireRequestAssembler.toResource(purchaseOrder);
     }
 
-    public PlantHireRequestDTO createPlantHireRequest(String plantId, LocalDate startDate, LocalDate endDate) {
+    public PlantHireRequestDTO createPlantHireRequest(PlantInventoryEntryDTO plant, LocalDate startDate, LocalDate endDate) {
 
-        RentITPurchaseOrderDTO rentITPurchaseOrderDTO = rentalService.createPurchaseOrder(plantId, startDate, endDate);
-
+        BigDecimal total = null; // change if needed
         String nextId = IdentifierFactory.nextID();
         BusinessPeriod rentalPeriod = BusinessPeriod.of(startDate, endDate);
-        PHRStatus status = PHRStatus.ACCEPTED;
-        // todo: rent it returns incorrect link to plant
-        PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(plantId, rentITPurchaseOrderDTO.getPlant().getLink("self").getHref());
-        PurchaseOrder purchaseOrder = PurchaseOrder.of(rentITPurchaseOrderDTO.getLink("self").getHref());
-        PlantHireRequest plantHireRequest = PlantHireRequest.of(nextId, status, rentalPeriod, plantInventoryEntry, purchaseOrder, "", "", "", null, null, rentITPurchaseOrderDTO.getTotal());
+        PHRStatus status = PHRStatus.PENDING;
+        PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(plant.get_id(), plant.getPlanInventoryEntryHref());
+
+        PlantHireRequest plantHireRequest = PlantHireRequest.of(
+                nextId,
+                status,
+                rentalPeriod,
+                plantInventoryEntry,
+                PurchaseOrder.of(null),
+                "",
+                "",
+                "",
+                null,
+                null,
+                total);
         plantHireRequestRepository.save(plantHireRequest);
         return plantHireRequestAssembler.toResource(plantHireRequest);//convert to dto
+    }
+
+    public PlantHireRequestDTO acceptPlantHireRequest(String phrId) {
+
+        PlantHireRequest phreq = plantHireRequestRepository.findOne(phrId);
+        RentITPurchaseOrderDTO rentITPurchaseOrderDTO = rentalService.createPurchaseOrder(
+                phreq.getPlantInventoryEntry().get_id(),
+                phreq.getRentalPeriod().getStartDate(),
+                phreq.getRentalPeriod().getEndDate());
+        phreq.updateStatus(phreq.getStatus());
+        plantHireRequestRepository.save(phreq);
+
+        return plantHireRequestAssembler.toResource(phreq);
     }
 }

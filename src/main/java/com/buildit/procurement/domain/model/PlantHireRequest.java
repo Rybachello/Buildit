@@ -41,4 +41,7 @@ public class PlantHireRequest {
 
     BigDecimal cost;
 
+    public void updateStatus(PHRStatus status) {
+        this.status = status;
+    }
 }
