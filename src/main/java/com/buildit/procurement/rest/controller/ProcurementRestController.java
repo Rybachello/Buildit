@@ -53,12 +53,12 @@ public class ProcurementRestController {
 
     @PostMapping("/requests")
     public ResponseEntity<PlantHireRequestDTO> createPlantHireRequest(
-            @RequestBody PlantHireRequestDTO request){
-            BusinessPeriodDTO period = request.getRentalPeriod();
-            PlantHireRequestDTO plantHireRequest = procurementService.createPlantHireRequest(
-                    request.getPlantInvEntryDTO(),
-                    period.getStartDate(),
-                    period.getEndDate());
+            @RequestBody PlantHireRequestDTO request) {
+        BusinessPeriodDTO period = request.getRentalPeriod();
+        PlantHireRequestDTO plantHireRequest = procurementService.createPlantHireRequest(
+                request.getPlantInvEntryDTO(),
+                period.getStartDate(),
+                period.getEndDate());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(URI.create(plantHireRequest.getId().getHref()));
