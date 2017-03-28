@@ -36,7 +36,9 @@ public class PlantHireRequest {
     String supplier;
     String comments;
 
+    @ManyToOne
     Person requestedBy; // site engineer
+    @ManyToOne
     Person reviewedBy; // works engineer
 
     BigDecimal cost;
