@@ -80,7 +80,7 @@ public class ProcurementService {
                 phreq.getRentalPeriod().getStartDate(),
                 phreq.getRentalPeriod().getEndDate());
         phreq.updateStatus(phreq.getStatus());
-        plantHireRequestRepository.save(phreq);
+        plantHireRequestRepository.flush();
 
         return plantHireRequestAssembler.toResource(phreq);
     }
