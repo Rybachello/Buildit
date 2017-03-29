@@ -59,9 +59,6 @@ public class ProcurementRestController {
                 request.getPlantInvEntryDTO(),
                 period.getStartDate(),
                 period.getEndDate());
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setLocation(URI.create(plantHireRequest.getId().getHref()));
 
         return new ResponseEntity<PlantHireRequestDTO>(plantHireRequest, HttpStatus.OK);
     }
@@ -90,10 +87,7 @@ public class ProcurementRestController {
     public ResponseEntity<PlantHireRequestDTO> acceptPlantHireRequest(@PathVariable String id) {
         PlantHireRequestDTO plantHireRequestDTO = procurementService.acceptPlantHireRequest(id);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(plantHireRequestDTO.getId().getHref()));
-
-        return new ResponseEntity<PlantHireRequestDTO>(plantHireRequestDTO, headers, HttpStatus.OK);
+        return new ResponseEntity<PlantHireRequestDTO>(plantHireRequestDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/requests/{id}/accept")

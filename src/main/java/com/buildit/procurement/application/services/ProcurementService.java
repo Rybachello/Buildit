@@ -79,7 +79,7 @@ public class ProcurementService {
                 phreq.getPlantInventoryEntry().get_id(),
                 phreq.getRentalPeriod().getStartDate(),
                 phreq.getRentalPeriod().getEndDate());
-        phreq.updateStatus(phreq.getStatus());
+        phreq.updateStatus(PHRStatus.ACCEPTED);
         plantHireRequestRepository.flush();
 
         return plantHireRequestAssembler.toResource(phreq);
