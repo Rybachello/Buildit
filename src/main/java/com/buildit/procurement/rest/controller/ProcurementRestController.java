@@ -59,11 +59,11 @@ public class ProcurementRestController {
                 request.getPlantInvEntryDTO(),
                 period.getStartDate(),
                 period.getEndDate());
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setLocation(URI.create(plantHireRequest.getId().getHref()));
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(plantHireRequest.getId().getHref()));
-
-        return new ResponseEntity<PlantHireRequestDTO>(plantHireRequest, headers, HttpStatus.OK);
+        return new ResponseEntity<PlantHireRequestDTO>(plantHireRequest, HttpStatus.OK);
     }
 
     @GetMapping("/requests/{id}")
@@ -97,14 +97,11 @@ public class ProcurementRestController {
     }
 
     @DeleteMapping("/requests/{id}/accept")
-    public ResponseEntity<PlantHireRequestDTO> rejectPlantHireRequest(@PathVariable String id) throws PlantHireRequestNotFoundException {
+    public ResponseEntity<PlantHireRequestDTO> rejectPlantHireRequest(@PathVariable(name = "id") String id) throws PlantHireRequestNotFoundException {
         PlantHireRequestDTO plantHireRequestDTO = procurementService.getPlantHireRequestById(id);
 
         PlantHireRequestDTO updatedDTO = procurementService.rejectPlantHireRequest(plantHireRequestDTO);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(updatedDTO.getId().getHref()));
-
-        return new ResponseEntity<PlantHireRequestDTO>(updatedDTO, headers, HttpStatus.OK);
+        return new ResponseEntity<PlantHireRequestDTO>(updatedDTO, HttpStatus.OK);
     }
 }

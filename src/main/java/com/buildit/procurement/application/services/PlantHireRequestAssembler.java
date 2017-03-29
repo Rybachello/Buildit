@@ -36,7 +36,7 @@ public class PlantHireRequestAssembler extends ResourceAssemblerSupport<PlantHir
     @Override
     public PlantHireRequestDTO toResource(PlantHireRequest plantHireRequest) {
         PlantHireRequestDTO plantHireRequestDTO = new PlantHireRequestDTO();
-
+        plantHireRequestDTO.set_id(plantHireRequest.getId());
         plantHireRequestDTO.setStatus(plantHireRequest.getStatus());
         plantHireRequestDTO.setRentalPeriod(BusinessPeriodDTO.of(plantHireRequest.getRentalPeriod().getStartDate(), plantHireRequest.getRentalPeriod().getEndDate()));
         plantHireRequestDTO.setPlantInvEntryDTO(new PlantInventoryEntryDTO(plantHireRequest.getId(), plantHireRequest.getPlantInventoryEntry().get_id(), plantHireRequest.getPlantInventoryEntry().getPlanInventoryEntryHref()));
@@ -63,7 +63,6 @@ public class PlantHireRequestAssembler extends ResourceAssemblerSupport<PlantHir
                     break;
 
             }
-        } catch (Exception e) {
         } catch (PlantHireRequestNotFoundException e) {
             e.printStackTrace();
         }
