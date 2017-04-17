@@ -39,7 +39,7 @@ public class PlantHireRequestAssembler extends ResourceAssemblerSupport<PlantHir
         plantHireRequestDTO.set_id(plantHireRequest.getId());
         plantHireRequestDTO.setStatus(plantHireRequest.getStatus());
         plantHireRequestDTO.setRentalPeriod(BusinessPeriodDTO.of(plantHireRequest.getRentalPeriod().getStartDate(), plantHireRequest.getRentalPeriod().getEndDate()));
-        plantHireRequestDTO.setPlantInvEntryDTO(new PlantInventoryEntryDTO(plantHireRequest.getId(), plantHireRequest.getPlantInventoryEntry().get_id(), plantHireRequest.getPlantInventoryEntry().getPlanInventoryEntryHref()));
+        plantHireRequestDTO.setPlantInventoryEntry(new PlantInventoryEntryDTO(plantHireRequest.getId(), plantHireRequest.getPlantInventoryEntry().getPlantInventoryEntryName(), plantHireRequest.getPlantInventoryEntry().getPlantInventoryEntryHref()));
         //plantHireRequestDTO.setPurchaseOrderDTO(new PurchaseOrderDTO(plantHireRequest.getPurchaseOrder().getPurchaseOrderHref()));
 
         try {

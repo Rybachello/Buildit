@@ -105,7 +105,7 @@ public class ProcurementControllerTest {
 
         PlantHireRequestDTO plantHireRequestDTO = new PlantHireRequestDTO();
         plantHireRequestDTO.setRentalPeriod(BusinessPeriodDTO.of(newlyCreated.getRentalPeriod().getStartDate(), newlyCreated.getRentalPeriod().getEndDate()));
-        plantHireRequestDTO.setPlantInvEntryDTO(new PlantInventoryEntryDTO(newlyCreated.getPlant().get_id(), "gg", "hgh"));
+        plantHireRequestDTO.setPlantInventoryEntry(new PlantInventoryEntryDTO(newlyCreated.getPlant().get_id(), "gg", "hgh"));
 
         mockMvc.perform(
                 post("/api/procurements/requests")
@@ -134,7 +134,7 @@ public class ProcurementControllerTest {
 
         PlantHireRequestDTO phrDTO = new PlantHireRequestDTO();
         phrDTO.set_id("1001");
-        phrDTO.setPlantInvEntryDTO(new PlantInventoryEntryDTO(rentItPIE.get_id(), rentItPIE.getName(), rentItPIE.getDescription()));
+        phrDTO.setPlantInventoryEntry(new PlantInventoryEntryDTO(rentItPIE.get_id(), rentItPIE.getName(), rentItPIE.getDescription()));
         phrDTO.setRentalPeriod(BusinessPeriodDTO.of(startDate, endDate));
         phrDTO.setStatus(PHRStatus.PENDING);
 
@@ -175,7 +175,7 @@ public class ProcurementControllerTest {
 
         PlantHireRequestDTO phrDTO = new PlantHireRequestDTO();
         phrDTO.set_id("1001");
-        phrDTO.setPlantInvEntryDTO(new PlantInventoryEntryDTO(rentItPIE.get_id(), rentItPIE.getName(), rentItPIE.getDescription()));
+        phrDTO.setPlantInventoryEntry(new PlantInventoryEntryDTO(rentItPIE.get_id(), rentItPIE.getName(), rentItPIE.getDescription()));
         phrDTO.setRentalPeriod(BusinessPeriodDTO.of(startDate, endDate));
         phrDTO.setStatus(PHRStatus.PENDING);
 

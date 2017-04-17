@@ -53,7 +53,7 @@ public class ProcurementService {
         String nextId = IdentifierFactory.nextID();
         BusinessPeriod rentalPeriod = BusinessPeriod.of(startDate, endDate);
         PHRStatus status = PHRStatus.PENDING;
-        PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(plant.get_id(), plant.getPlanInventoryEntryHref());
+        PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(plant.get_id(), plant.getPlanInventoryEntryHref(), plant.getName());
 
         PlantHireRequest plantHireRequest = PlantHireRequest.of(
                 nextId,
@@ -109,7 +109,7 @@ public class ProcurementService {
             throw new PlantHireRequestNotFoundException("Purchase order that need to update not found");
         }
         BusinessPeriod businessPeriod = BusinessPeriod.of(updatedDTO.getRentalPeriod().getStartDate(),updatedDTO.getRentalPeriod().getEndDate());
-        PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(updatedDTO.getPlantInvEntryDTO().get_id(),updatedDTO.getPlantInvEntryDTO().getPlanInventoryEntryHref());
+        PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(updatedDTO.getPlantInventoryEntry().get_id(),updatedDTO.getPlantInventoryEntry().getPlanInventoryEntryHref(), updatedDTO.getPlantInventoryEntry().getName());
         plantHireRequest.resubmit(businessPeriod,plantInventoryEntry);
         plantHireRequestRepository.flush(); //todo: do we need save here?
         return plantHireRequestAssembler.toResource(plantHireRequest);

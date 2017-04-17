@@ -19,11 +19,14 @@ public class PlantInventoryEntry {
 
     public PlantInventoryEntry() {
         this._id = null;
-        this.planInventoryEntryHref = null;
+        this.plantInventoryEntryHref = null;
+        this.plantInventoryEntryName = null;
     }
 
     String _id;
 
-    String planInventoryEntryHref;
+    String plantInventoryEntryHref;
+
+    String plantInventoryEntryName;
 
 }
