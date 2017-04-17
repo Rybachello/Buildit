@@ -116,4 +116,9 @@ public class ProcurementService {
 
 
     }
+
+    public List<PlantHireRequestDTO> getAllPlantHireRequests() {
+        List<PlantHireRequest> phrList = plantHireRequestRepository.findAll();
+        return plantHireRequestAssembler.toResources(phrList);
+    }
 }

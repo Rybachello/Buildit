@@ -22,6 +22,7 @@ import java.util.Optional;
 /**
  * Created by lgarcia on 3/16/2017.
  */
+@CrossOrigin()
 @RestController
 @RequestMapping("/api/procurements")
 public class ProcurementRestController {
@@ -49,6 +50,11 @@ public class ProcurementRestController {
     @ExceptionHandler(PlantHireRequestNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public void handPlantNotFoundException(PlantHireRequestNotFoundException ex) {
+    }
+
+    @GetMapping("/requests")
+    public List<PlantHireRequestDTO> getAllPlantHireRequests() {
+        return procurementService.getAllPlantHireRequests();
     }
 
     @PostMapping("/requests")
