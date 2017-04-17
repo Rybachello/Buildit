@@ -2,7 +2,6 @@ package com.buildit.procurement.application.services;
 
 import com.buildit.common.application.exceptions.PlantHireRequestNotFoundException;
 import com.buildit.common.domain.model.BusinessPeriod;
-import com.buildit.common.rest.ExtendedLink;
 import com.buildit.procurement.application.dto.PlantHireRequestDTO;
 import com.buildit.procurement.domain.model.PHRStatus;
 import com.buildit.procurement.infastructure.IdentifierFactory;
@@ -10,7 +9,6 @@ import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
 import com.buildit.rental.application.services.RentalService;
 import com.buildit.rental.application.dto.RentITPurchaseOrderDTO;
-import com.buildit.rental.domain.model.POStatus;
 import com.buildit.procurement.domain.model.PlantHireRequest;
 import com.buildit.rental.domain.model.PlantInventoryEntry;
 import com.buildit.rental.domain.model.PurchaseOrder;

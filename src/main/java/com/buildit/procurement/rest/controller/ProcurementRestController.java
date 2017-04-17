@@ -1,11 +1,9 @@
 package com.buildit.procurement.rest.controller;
 
 import com.buildit.common.application.exceptions.PlantHireRequestNotFoundException;
-import com.buildit.common.domain.model.BusinessPeriod;
 import com.buildit.common.dto.BusinessPeriodDTO;
 import com.buildit.procurement.application.dto.PlantHireRequestDTO;
 import com.buildit.procurement.application.services.ProcurementService;
-import com.buildit.procurement.domain.model.PlantHireRequest;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;

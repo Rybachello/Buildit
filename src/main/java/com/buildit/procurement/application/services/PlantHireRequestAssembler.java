@@ -1,6 +1,5 @@
 package com.buildit.procurement.application.services;
 
-import com.buildit.common.application.exceptions.InvalidPlantHireRequestStatusException;
 import com.buildit.common.application.exceptions.PlantHireRequestNotFoundException;
 import com.buildit.common.dto.BusinessPeriodDTO;
 import com.buildit.procurement.application.dto.PlantHireRequestDTO;
@@ -12,13 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Service;
 import com.buildit.common.rest.ExtendedLink;
-import com.buildit.common.rest.ResourceSupport;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import static org.springframework.http.HttpMethod.DELETE;
-import static org.springframework.http.HttpMethod.POST;
-
 import static org.springframework.http.HttpMethod.POST;
 
 /**
