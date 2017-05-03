@@ -23,4 +23,8 @@ public class Invoice
     LocalDate dueDate;
     LocalDate paidDate;
     BigDecimal amount;
+
+    public void accept() {
+        this.approved = true;
+    }
 }
