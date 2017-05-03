@@ -44,7 +44,7 @@ public class PlantHireRequestAssembler extends ResourceAssemblerSupport<PlantHir
                     plantHireRequestDTO.add(new ExtendedLink(
                             linkTo(methodOn(ProcurementRestController.class)
                                     .acceptPlantHireRequest(plantHireRequestDTO.get_id())).toString(),
-                            "accept", POST));
+                            "approve", POST));
                     plantHireRequestDTO.add(new ExtendedLink(
                             linkTo(methodOn(ProcurementRestController.class)
                                     .rejectPlantHireRequest(plantHireRequestDTO.get_id())).toString(),

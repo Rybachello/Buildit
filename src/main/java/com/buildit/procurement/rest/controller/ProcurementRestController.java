@@ -87,14 +87,14 @@ public class ProcurementRestController {
         return new ResponseEntity<PlantHireRequestDTO>(plantHireRequestDTO, headers, HttpStatus.OK);
     }
 
-    @PostMapping("/requests/{id}/accept")
+    @PostMapping("/requests/{id}/approve")
     public ResponseEntity<PlantHireRequestDTO> acceptPlantHireRequest(@PathVariable String id) {
         PlantHireRequestDTO plantHireRequestDTO = procurementService.acceptPlantHireRequest(id);
 
         return new ResponseEntity<PlantHireRequestDTO>(plantHireRequestDTO, HttpStatus.OK);
     }
 
-    @DeleteMapping("/requests/{id}/accept")
+    @DeleteMapping("/requests/{id}/approve")
     public ResponseEntity<PlantHireRequestDTO> rejectPlantHireRequest(@PathVariable(name = "id") String id) throws PlantHireRequestNotFoundException {
         PlantHireRequestDTO plantHireRequestDTO = procurementService.getPlantHireRequestById(id);
 

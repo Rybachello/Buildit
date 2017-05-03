@@ -47,7 +47,7 @@ public class InvoicingService {
     public InvoiceDTO approveInvoice(String id) {
         Invoice invoice = invoiceRepository.findOne(id);
 
-        invoice.accept();
+        invoice.approve();
 
         invoicingService.sendRemittanceAdvice(invoice.getPurchaseOrder().getPurchaseOrderId(), invoice.getAmount());
 

@@ -34,7 +34,7 @@ public class Invoice {
 
     public Invoice(){}
 
-    public void accept() {
+    public void approve() {
         this.approved = true;
     }
 }

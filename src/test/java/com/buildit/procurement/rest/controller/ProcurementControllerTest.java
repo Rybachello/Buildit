@@ -147,7 +147,7 @@ public class ProcurementControllerTest {
         PlantHireRequestDTO newlyCratedPHRId = mapper.readValue(resultNewlyCreatedPHR.getResponse().getContentAsString(), new TypeReference<PlantHireRequestDTO>() {
         });
 
-        MvcResult rejectedResult = mockMvc.perform(delete("/api/procurements/requests/{id}/accept", newlyCratedPHRId.get_id())).andExpect(status().isOk()).andReturn();
+        MvcResult rejectedResult = mockMvc.perform(delete("/api/procurements/requests/{id}/approve", newlyCratedPHRId.get_id())).andExpect(status().isOk()).andReturn();
 
         PlantHireRequestDTO rejectedPHR = mapper.readValue(rejectedResult.getResponse().getContentAsString(), new TypeReference<PlantHireRequestDTO>() {
         });
@@ -188,7 +188,7 @@ public class ProcurementControllerTest {
         PlantHireRequestDTO newlyCratedPHRId = mapper.readValue(resultNewlyCreatedPHR.getResponse().getContentAsString(), new TypeReference<PlantHireRequestDTO>() {
         });
 
-        MvcResult resultAcceptedPHR = mockMvc.perform(post("/api/procurements/requests/{id}/accept",newlyCratedPHRId.get_id())).andExpect(status().isOk()).andReturn();
+        MvcResult resultAcceptedPHR = mockMvc.perform(post("/api/procurements/requests/{id}/approve",newlyCratedPHRId.get_id())).andExpect(status().isOk()).andReturn();
 
         PlantHireRequestDTO acceptedPHR = mapper.readValue(resultAcceptedPHR.getResponse().getContentAsString(), new TypeReference<PlantHireRequestDTO>() {
         });

@@ -37,7 +37,7 @@ public class InvoiceAssembler extends ResourceAssemblerSupport<Invoice, InvoiceD
             if (!invoice.isApproved()) {
                 invoiceDTO.add(new ExtendedLink(
                         linkTo(methodOn(InvoicingRestController.class)
-                                .approveInvoice(invoiceDTO.get_id())).toString(), "accept", POST
+                                .approveInvoice(invoiceDTO.get_id())).toString(), "approve", POST
                 ));
             }
         }
