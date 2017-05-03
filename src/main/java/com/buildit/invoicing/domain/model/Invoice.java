@@ -1,5 +1,6 @@
 package com.buildit.invoicing.domain.model;
 
+import com.buildit.invoicing.services.InvoicingService;
 import com.buildit.rental.domain.model.PurchaseOrder;
 import lombok.AllArgsConstructor;
 import lombok.Data;

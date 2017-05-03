@@ -108,6 +108,9 @@ public class InboundProcessor {
     }
 
     void normalTrackHandler(Invoice invoice) {
+        if (invoice.getPurchaseOrder() == null)
+            return;
+
         invoiceRepository.save(invoice);
     }
 
@@ -121,6 +124,7 @@ public class InboundProcessor {
             return;
 
         if (po!=null&&po.getCost()==invoice.getAmount()){
+            invoice.approve();
             invoicingService.sendRemittanceAdvice(po.getId(), invoice.getAmount());
         }
     }

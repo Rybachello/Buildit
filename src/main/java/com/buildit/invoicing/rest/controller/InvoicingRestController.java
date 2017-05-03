@@ -29,9 +29,9 @@ public class InvoicingRestController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public void handleInvoiceNotFoundException(InvoiceNotFoundException ex) {}
 
-    @PostMapping("/invoices/{id}/accept")
-    public ResponseEntity<InvoiceDTO> acceptInvoice(@PathVariable String id) throws InvoiceNotFoundException {
-        InvoiceDTO invoiceDTO = invoicingService.acceptInvoice(id);
+    @PostMapping("/invoices/{id}/approve")
+    public ResponseEntity<InvoiceDTO> approveInvoice(@PathVariable String id) throws InvoiceNotFoundException {
+        InvoiceDTO invoiceDTO = invoicingService.approveInvoice(id);
 
         return new ResponseEntity<InvoiceDTO>(invoiceDTO, HttpStatus.OK);
     }

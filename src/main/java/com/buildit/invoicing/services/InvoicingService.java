@@ -23,6 +23,8 @@ public class InvoicingService {
     InvoiceRepository invoiceRepository;
     @Autowired
     InvoiceAssembler invoiceAssembler;
+    @Autowired
+    InvoicingService invoicingService;
 
     @Data
     @AllArgsConstructor
@@ -42,10 +44,12 @@ public class InvoicingService {
         return invoiceAssembler.toResources(invoiceRepository.findAll());
     }
 
-    public InvoiceDTO acceptInvoice(String id) {
+    public InvoiceDTO approveInvoice(String id) {
         Invoice invoice = invoiceRepository.findOne(id);
 
         invoice.accept();
+
+        invoicingService.sendRemittanceAdvice(invoice.getPurchaseOrder().getPurchaseOrderId(), invoice.getAmount());
 
         invoiceRepository.flush();
 
