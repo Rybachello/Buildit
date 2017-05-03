@@ -22,7 +22,7 @@ public class InvoicingRestController {
 
     @GetMapping("/invoices")
     public List<InvoiceDTO> getPendingInvoices() {
-        return invoicingService.findPendingInvoices();
+        return invoicingService.findAllInvoices();
     }
 
     @ExceptionHandler(InvoiceNotFoundException.class)

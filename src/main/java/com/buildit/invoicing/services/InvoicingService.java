@@ -38,8 +38,8 @@ public class InvoicingService {
                 String.class);
     }
 
-    public List<InvoiceDTO> findPendingInvoices() {
-        return invoiceAssembler.toResources(invoiceRepository.findByApproved(false));
+    public List<InvoiceDTO> findAllInvoices() {
+        return invoiceAssembler.toResources(invoiceRepository.findAll());
     }
 
     public InvoiceDTO acceptInvoice(String id) {
