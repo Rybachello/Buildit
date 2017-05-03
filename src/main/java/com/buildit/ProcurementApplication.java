@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -79,11 +80,14 @@ public class ProcurementApplication {
             throw new Exception("oops at extractInvoice");
         }
     }
-
+    @Value("${gmail.username}")
+    String gmailUsername;
+    @Value("${gmail.password}")
+    String gmailPassword;
     @Bean
     IntegrationFlow inboundMail() {
         return IntegrationFlows.from(Mail.imapInboundAdapter(
-                String.format("imaps://%s:%s@imap.gmail.com:993/INBOX", "rentit228", "opopbanuelos")
+                String.format("imaps://%s:%s@imap.gmail.com:993/INBOX", gmailUsername, gmailPassword)
                 )
                         .selectorExpression("subject matches '.*invoice.*'")
                 ,e->e.autoStartup(true).poller(Pollers.fixedDelay(10000)))
