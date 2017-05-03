@@ -1,6 +1,7 @@
 package com.buildit.rental.domain.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Value;
 
@@ -15,11 +16,14 @@ import javax.persistence.Id;
 @Embeddable
 @Value
 @AllArgsConstructor(staticName = "of")
-
+@Data
 public class PurchaseOrder {
+    String purchaseOrderId;
+
     String purchaseOrderHref;
 
     public PurchaseOrder() {
         this.purchaseOrderHref = null;
+        this.purchaseOrderId = null;
     }
 }

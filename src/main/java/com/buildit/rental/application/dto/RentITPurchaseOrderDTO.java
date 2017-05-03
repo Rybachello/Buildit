@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @Data
 public class RentITPurchaseOrderDTO extends ResourceSupport {
 
+    private String _id;
     private String name;
     private POStatus status;
     private BusinessPeriod rentalPeriod;

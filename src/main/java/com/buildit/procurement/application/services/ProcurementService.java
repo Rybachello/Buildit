@@ -58,7 +58,7 @@ public class ProcurementService {
                 status,
                 rentalPeriod,
                 plantInventoryEntry,
-                PurchaseOrder.of(null),
+                PurchaseOrder.of(null, null),
                 "",
                 "",
                 "",
@@ -78,6 +78,7 @@ public class ProcurementService {
                 phreq.getRentalPeriod().getStartDate(),
                 phreq.getRentalPeriod().getEndDate());
         phreq.updateStatus(PHRStatus.ACCEPTED);
+        phreq.assignPO(PurchaseOrder.of(rentITPurchaseOrderDTO.get_id(), rentITPurchaseOrderDTO.getId().getHref()));
         plantHireRequestRepository.flush();
 
         return plantHireRequestAssembler.toResource(phreq);

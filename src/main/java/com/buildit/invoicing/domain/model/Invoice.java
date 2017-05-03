@@ -1,7 +1,8 @@
-package com.buildit.invoicing.domain.models;
+package com.buildit.invoicing.domain.model;
 
+import com.buildit.rental.domain.model.PurchaseOrder;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,16 +12,24 @@ import java.time.LocalDate;
 /**
  * Created by Vasiliy on 2017-05-03.
  */
-@Getter
+@Data
 @Entity
 @AllArgsConstructor
-public class Invoice
-{
+public class Invoice {
     @Id
     String id;
+
     boolean approved;
+
     String note;
+
     LocalDate dueDate;
+
     LocalDate paidDate;
+
     BigDecimal amount;
+
+    PurchaseOrder purchaseOrder;
+
+    public Invoice(){}
 }

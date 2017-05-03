@@ -39,6 +39,7 @@ public class PlantHireRequest {
     @AttributeOverrides({
             @AttributeOverride(name="href", column=@Column(name="purchase_order_href"))
     })
+
     PurchaseOrder purchaseOrder;
 
     String constructionSite;
@@ -55,6 +56,10 @@ public class PlantHireRequest {
 
     public void updateStatus(PHRStatus status) {
         this.status = status;
+    }
+
+    public void assignPO(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
     }
 
     public void reject() {
