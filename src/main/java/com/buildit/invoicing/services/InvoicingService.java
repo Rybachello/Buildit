@@ -19,7 +19,7 @@ public class InvoicingService {
     InvoiceAssembler invoiceAssembler;
 
     public List<InvoiceDTO> findPendingInvoices() {
-        return invoiceAssembler.toResources(invoiceRepository.findByAccepted(true));
+        return invoiceAssembler.toResources(invoiceRepository.findByApproved(true));
     }
 
     public InvoiceDTO acceptInvoice(String id) {
