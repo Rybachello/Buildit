@@ -15,9 +15,16 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
+import org.springframework.integration.dsl.core.Pollers;
 import org.springframework.integration.dsl.http.Http;
+import org.springframework.integration.dsl.mail.Mail;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.apache.commons.io.IOUtils;
 
+import javax.mail.BodyPart;
+import javax.mail.Multipart;
+import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,10 +62,59 @@ public class ProcurementApplication {
     IntegrationFlow inboundHttpGateway() {
         return IntegrationFlows.from(
                 Http.inboundChannelAdapter("/api/inventory/invoices").requestPayloadType(String.class))
-                .handle(System.err::println)
+                .channel("router-channel")
                 .get();
     }
 
+    @Service
+    class InvoiceProcessor {
+        public String extractInvoice(MimeMessage msg) throws Exception {
+            Multipart multipart = (Multipart) msg.getContent();
+            for (int i = 0; i < multipart.getCount(); i++) {
+                BodyPart bodyPart = multipart.getBodyPart(i);
+                if (bodyPart.getContentType().contains("json") &&
+                        bodyPart.getFileName().startsWith("invoice"))
+                    return IOUtils.toString(bodyPart.getInputStream(), "UTF-8");
+            }
+            throw new Exception("oops at extractInvoice");
+        }
+    }
+
+    @Bean
+    IntegrationFlow inboundMail() {
+        return IntegrationFlows.from(Mail.imapInboundAdapter(
+                String.format("imaps://%s:%s@imap.gmail.com:993/INBOX", "rentit228", "opopbanuelos")
+                )
+                        .selectorExpression("subject matches '.*invoice.*'")
+                ,e->e.autoStartup(true).poller(Pollers.fixedDelay(10000)))
+                .transform("@invoiceProcessor.extractInvoice(payload)")
+                .channel("router-channel")
+                .get();
+    }
+
+    @Bean
+    IntegrationFlow router() {
+        return IntegrationFlows.from("router-channel")
+                .route("#jsonPath(payload, '$.amount') > 1000", routes -> routes
+                        .subFlowMapping("false", subflow -> subflow.channel("fasttrack-channel"))
+                        .subFlowMapping("true", subflow -> subflow.channel("normaltrack-channel"))
+                )
+                .get();
+    }
+
+    @Bean
+    IntegrationFlow normalTrack() {
+        return IntegrationFlows.from("normaltrack-channel")
+                .handle(i -> System.out.println(i))
+                .get();
+    }
+
+    @Bean
+    IntegrationFlow fastTrack() {
+        return IntegrationFlows.from("fasttrack-channel")
+                .handle(System.err::println)
+                .get();
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(ProcurementApplication.class, args);
