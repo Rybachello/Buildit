@@ -29,7 +29,7 @@ public class ProcurementRestController {
     @Autowired
     ProcurementService procurementService;
 
-
+    @CrossOrigin
     @GetMapping("/plants")
     public List<RentITPlantInventoryEntryDTO> findAvailablePlants(
             @RequestParam(name = "name", required = false) Optional<String> plantName,
