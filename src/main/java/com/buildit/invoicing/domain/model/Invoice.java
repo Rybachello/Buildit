@@ -32,4 +32,8 @@ public class Invoice {
     PurchaseOrder purchaseOrder;
 
     public Invoice(){}
+
+    public void accept() {
+        this.approved = true;
+    }
 }
