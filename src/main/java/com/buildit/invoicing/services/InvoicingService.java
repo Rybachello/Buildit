@@ -1,22 +1,42 @@
 package com.buildit.invoicing.services;
 
 import com.buildit.invoicing.application.dto.InvoiceDTO;
-import com.buildit.invoicing.domain.models.Invoice;
+import com.buildit.invoicing.domain.model.Invoice;
 import com.buildit.invoicing.domain.repository.InvoiceRepository;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * Created by stepan on 03/05/2017.
+ * Created by Vasiliy on 2017-05-03.
  */
 @Service
 public class InvoicingService {
     @Autowired
+    RestTemplate restTemplate;
+    @Autowired
     InvoiceRepository invoiceRepository;
     @Autowired
     InvoiceAssembler invoiceAssembler;
+
+    @Data
+    @AllArgsConstructor
+    class RemittanceAdvice{
+        String POID;
+        BigDecimal amount;
+    }
+
+    public void sendRemittanceAdvice(String POID, BigDecimal amount) {
+        restTemplate.postForObject(
+                "http://localhost:8090/api/invoicing/remittanceAdvice",
+                new RemittanceAdvice(POID, amount),
+                String.class);
+    }
 
     public List<InvoiceDTO> findPendingInvoices() {
         return invoiceAssembler.toResources(invoiceRepository.findByApproved(true));

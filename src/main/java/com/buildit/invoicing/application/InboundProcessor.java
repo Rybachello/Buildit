@@ -2,7 +2,7 @@ package com.buildit.invoicing.application;
 
 import com.buildit.invoicing.domain.model.Invoice;
 import com.buildit.invoicing.domain.repository.InvoiceRepository;
-import com.buildit.invoicing.service.InvoicingService;
+import com.buildit.invoicing.services.InvoicingService;
 import com.buildit.procurement.domain.model.PlantHireRequest;
 import com.buildit.procurement.domain.repository.PlantHireRequestRepository;
 import org.apache.commons.io.IOUtils;
