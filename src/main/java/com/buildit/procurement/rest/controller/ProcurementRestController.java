@@ -1,11 +1,9 @@
 package com.buildit.procurement.rest.controller;
 
 import com.buildit.common.application.exceptions.PlantHireRequestNotFoundException;
-import com.buildit.common.domain.model.BusinessPeriod;
 import com.buildit.common.dto.BusinessPeriodDTO;
 import com.buildit.procurement.application.dto.PlantHireRequestDTO;
 import com.buildit.procurement.application.services.ProcurementService;
-import com.buildit.procurement.domain.model.PlantHireRequest;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,6 +20,7 @@ import java.util.Optional;
 /**
  * Created by lgarcia on 3/16/2017.
  */
+@CrossOrigin()
 @RestController
 @RequestMapping("/api/procurements")
 public class ProcurementRestController {
@@ -51,12 +50,17 @@ public class ProcurementRestController {
     public void handPlantNotFoundException(PlantHireRequestNotFoundException ex) {
     }
 
+    @GetMapping("/requests")
+    public List<PlantHireRequestDTO> getAllPlantHireRequests() {
+        return procurementService.getAllPlantHireRequests();
+    }
+
     @PostMapping("/requests")
     public ResponseEntity<PlantHireRequestDTO> createPlantHireRequest(
             @RequestBody PlantHireRequestDTO request) {
         BusinessPeriodDTO period = request.getRentalPeriod();
         PlantHireRequestDTO plantHireRequest = procurementService.createPlantHireRequest(
-                request.getPlantInvEntryDTO(),
+                request.getPlantInventoryEntry(),
                 period.getStartDate(),
                 period.getEndDate());
 

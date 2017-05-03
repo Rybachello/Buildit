@@ -1,13 +1,9 @@
 package com.buildit.rental.domain.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.Value;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 
 /**
  * Created by minhi_000 on 20.03.2017.
@@ -19,11 +15,14 @@ public class PlantInventoryEntry {
 
     public PlantInventoryEntry() {
         this._id = null;
-        this.planInventoryEntryHref = null;
+        this.plantInventoryEntryHref = null;
+        this.plantInventoryEntryName = null;
     }
 
     String _id;
 
-    String planInventoryEntryHref;
+    String plantInventoryEntryHref;
+
+    String plantInventoryEntryName;
 
 }

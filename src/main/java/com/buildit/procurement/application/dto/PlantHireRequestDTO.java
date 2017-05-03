@@ -17,7 +17,7 @@ public class PlantHireRequestDTO extends ResourceSupport {
     String _id;
     PHRStatus status;
     BusinessPeriodDTO rentalPeriod;
-    PlantInventoryEntryDTO plantInvEntryDTO;
+    PlantInventoryEntryDTO plantInventoryEntry;
 //    @Embedded
 //    PurchaseOrderDTO purchaseOrderDTO;
 

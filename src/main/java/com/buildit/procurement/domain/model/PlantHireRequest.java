@@ -30,8 +30,15 @@ public class PlantHireRequest {
     @Embedded
     BusinessPeriod rentalPeriod;
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="name", column=@Column(name="plant_inventory_entry_name")),
+            @AttributeOverride(name="href", column=@Column(name="plant_inventory_entry_href"))
+    })
     PlantInventoryEntry plantInventoryEntry;
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="href", column=@Column(name="purchase_order_href"))
+    })
     PurchaseOrder purchaseOrder;
 
     String constructionSite;

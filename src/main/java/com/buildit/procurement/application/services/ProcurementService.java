@@ -2,7 +2,6 @@ package com.buildit.procurement.application.services;
 
 import com.buildit.common.application.exceptions.PlantHireRequestNotFoundException;
 import com.buildit.common.domain.model.BusinessPeriod;
-import com.buildit.common.rest.ExtendedLink;
 import com.buildit.procurement.application.dto.PlantHireRequestDTO;
 import com.buildit.procurement.domain.model.PHRStatus;
 import com.buildit.procurement.infastructure.IdentifierFactory;
@@ -10,7 +9,6 @@ import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
 import com.buildit.rental.application.services.RentalService;
 import com.buildit.rental.application.dto.RentITPurchaseOrderDTO;
-import com.buildit.rental.domain.model.POStatus;
 import com.buildit.procurement.domain.model.PlantHireRequest;
 import com.buildit.rental.domain.model.PlantInventoryEntry;
 import com.buildit.rental.domain.model.PurchaseOrder;
@@ -53,7 +51,7 @@ public class ProcurementService {
         String nextId = IdentifierFactory.nextID();
         BusinessPeriod rentalPeriod = BusinessPeriod.of(startDate, endDate);
         PHRStatus status = PHRStatus.PENDING;
-        PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(plant.get_id(), plant.getPlanInventoryEntryHref());
+        PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(plant.get_id(), plant.getPlanInventoryEntryHref(), plant.getName());
 
         PlantHireRequest plantHireRequest = PlantHireRequest.of(
                 nextId,
@@ -109,11 +107,16 @@ public class ProcurementService {
             throw new PlantHireRequestNotFoundException("Purchase order that need to update not found");
         }
         BusinessPeriod businessPeriod = BusinessPeriod.of(updatedDTO.getRentalPeriod().getStartDate(),updatedDTO.getRentalPeriod().getEndDate());
-        PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(updatedDTO.getPlantInvEntryDTO().get_id(),updatedDTO.getPlantInvEntryDTO().getPlanInventoryEntryHref());
+        PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(updatedDTO.getPlantInventoryEntry().get_id(),updatedDTO.getPlantInventoryEntry().getPlanInventoryEntryHref(), updatedDTO.getPlantInventoryEntry().getName());
         plantHireRequest.resubmit(businessPeriod,plantInventoryEntry);
         plantHireRequestRepository.flush(); //todo: do we need save here?
         return plantHireRequestAssembler.toResource(plantHireRequest);
 
 
+    }
+
+    public List<PlantHireRequestDTO> getAllPlantHireRequests() {
+        List<PlantHireRequest> phrList = plantHireRequestRepository.findAll();
+        return plantHireRequestAssembler.toResources(phrList);
     }
 }
