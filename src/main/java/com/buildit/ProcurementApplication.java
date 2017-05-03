@@ -1,5 +1,6 @@
 package com.buildit;
 
+import com.buildit.invoicing.domain.models.Invoice;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -18,6 +19,7 @@ import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.core.Pollers;
 import org.springframework.integration.dsl.http.Http;
 import org.springframework.integration.dsl.mail.Mail;
+import org.springframework.integration.dsl.support.Transformers;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.apache.commons.io.IOUtils;
@@ -105,13 +107,15 @@ public class ProcurementApplication {
     @Bean
     IntegrationFlow normalTrack() {
         return IntegrationFlows.from("normaltrack-channel")
-                .handle(i -> System.out.println(i))
+                .transform(Transformers.fromJson(Invoice.class))
+                .handle(i -> System.out.println(((Invoice)i.getPayload()).getAmount()))
                 .get();
     }
 
     @Bean
     IntegrationFlow fastTrack() {
         return IntegrationFlows.from("fasttrack-channel")
+                .transform(Transformers.fromJson(Invoice.class))
                 .handle(System.err::println)
                 .get();
     }

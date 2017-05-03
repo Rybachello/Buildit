@@ -22,5 +22,5 @@ public class Invoice
     String note;
     LocalDate dueDate;
     LocalDate paidDate;
-    BigDecimal totalAmount;
+    BigDecimal amount;
 }
