@@ -8,6 +8,7 @@ import com.buildit.invoicing.domain.repository.InvoiceRepository;
 import com.buildit.invoicing.rest.controller.InvoicingRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
+import org.springframework.stereotype.Service;
 
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -16,6 +17,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 /**
  * Created by stepan on 03/05/2017.
  */
+@Service
 public class InvoiceAssembler extends ResourceAssemblerSupport<Invoice, InvoiceDTO> {
     @Autowired
     InvoiceRepository invoiceRepository;
