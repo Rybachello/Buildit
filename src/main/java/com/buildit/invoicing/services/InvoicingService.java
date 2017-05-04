@@ -35,7 +35,7 @@ public class InvoicingService {
 
     public void sendRemittanceAdvice(String POID, String invoiceId) {
         restTemplate.postForObject(
-                "http://localhost:8090/api/invoicing/remittanceAdvice",
+                "http://localhost:8090/api/remittances/remittance",
                 new RemittanceAdviceDTO(invoiceId, POID),
                 String.class);
     }
