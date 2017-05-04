@@ -12,9 +12,9 @@ import java.time.LocalDate;
  */
 @Data
 @EqualsAndHashCode
-public class InvoiceDTO extends ResourceSupport {
+public class InvoiceDTOWithoutLocalDateVariableWhichForSomeReasonCanNotBeDeserialized extends ResourceSupport {
     String _id;
     String orderId;
-    LocalDate dueDate;
+    String dueDate;
     BigDecimal amount;
 }

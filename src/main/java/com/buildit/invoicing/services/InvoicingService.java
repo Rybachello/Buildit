@@ -28,15 +28,15 @@ public class InvoicingService {
 
     @Data
     @AllArgsConstructor
-    class RemittanceAdvice{
-        String POID;
-        BigDecimal amount;
+    class RemittanceAdviceDTO {
+        String InvoiceId;
+        String Id;
     }
 
-    public void sendRemittanceAdvice(String POID, BigDecimal amount) {
+    public void sendRemittanceAdvice(String POID, String invoiceId) {
         restTemplate.postForObject(
                 "http://localhost:8090/api/invoicing/remittanceAdvice",
-                new RemittanceAdvice(POID, amount),
+                new RemittanceAdviceDTO(invoiceId, POID),
                 String.class);
     }
 
@@ -49,7 +49,7 @@ public class InvoicingService {
 
         invoice.approve();
 
-        invoicingService.sendRemittanceAdvice(invoice.getPurchaseOrder().getPurchaseOrderId(), invoice.getAmount());
+        invoicingService.sendRemittanceAdvice(invoice.getPurchaseOrder().getPurchaseOrderId(), invoice.getId());
 
         invoiceRepository.flush();
 

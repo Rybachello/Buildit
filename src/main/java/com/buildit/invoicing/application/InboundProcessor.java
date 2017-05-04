@@ -1,10 +1,12 @@
 package com.buildit.invoicing.application;
 
+import com.buildit.invoicing.application.dto.InvoiceDTOWithoutLocalDateVariableWhichForSomeReasonCanNotBeDeserialized;
 import com.buildit.invoicing.domain.model.Invoice;
 import com.buildit.invoicing.domain.repository.InvoiceRepository;
 import com.buildit.invoicing.services.InvoicingService;
 import com.buildit.procurement.domain.model.PlantHireRequest;
 import com.buildit.procurement.domain.repository.PlantHireRequestRepository;
+import com.buildit.rental.domain.model.PurchaseOrder;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +27,22 @@ import javax.mail.internet.MimeMessage;
 /**
  * Created by Vasiliy on 2017-05-03.
  */
+
+@Service
+class InvoiceProcessor {
+    public String extractInvoice(MimeMessage msg) throws Exception {
+        System.out.println("processing message started");
+        Multipart multipart = (Multipart) msg.getContent();
+        for (int i = 0; i < multipart.getCount(); i++) {
+            BodyPart bodyPart = multipart.getBodyPart(i);
+            if (bodyPart.getContentType().contains("json") &&
+                    bodyPart.getFileName().startsWith("invoice"))
+                return IOUtils.toString(bodyPart.getInputStream(), "UTF-8");
+        }
+        throw new Exception("oops at extractInvoice");
+    }
+}
+
 @Configuration
 public class InboundProcessor {
 
@@ -47,34 +65,20 @@ public class InboundProcessor {
                 .get();
     }
 
-    @Service
-    class InvoiceProcessor {
-        public String extractInvoice(MimeMessage msg) throws Exception {
-            Multipart multipart = (Multipart) msg.getContent();
-            for (int i = 0; i < multipart.getCount(); i++) {
-                BodyPart bodyPart = multipart.getBodyPart(i);
-                if (bodyPart.getContentType().contains("json") &&
-                        bodyPart.getFileName().startsWith("invoice"))
-                    return IOUtils.toString(bodyPart.getInputStream(), "UTF-8");
-            }
-            throw new Exception("oops at extractInvoice");
-        }
-    }
-
     @Value("${gmail.username}")
     String gmailUsername;
 
     @Value("${gmail.password}")
     String gmailPassword;
 
-    final int mailRefreshPeriodSeconds = 60;
+    final int mailRefreshPeriodSeconds = 6;
 
     @Bean
     IntegrationFlow inboundMail() {
         return IntegrationFlows.from(Mail.imapInboundAdapter(
                 String.format("imaps://%s:%s@imap.gmail.com:993/INBOX", gmailUsername, gmailPassword)
                 )
-                        .selectorExpression("subject matches '.*invoice.*'")
+                        .selectorExpression("subject matches '.*Invoice.*'")
                 , e -> e.autoStartup(true).poller(Pollers.fixedDelay(mailRefreshPeriodSeconds * 1000)))
                 .transform("@invoiceProcessor.extractInvoice(payload)")
                 .channel("router-channel")
@@ -94,30 +98,28 @@ public class InboundProcessor {
     @Bean
     IntegrationFlow normalTrack() {
         return IntegrationFlows.from("normaltrack-channel")
-                .transform(Transformers.fromJson(Invoice.class))
-                .handle(i -> normalTrackHandler(((Invoice) i.getPayload())))
+                .transform(Transformers.fromJson(InvoiceDTOWithoutLocalDateVariableWhichForSomeReasonCanNotBeDeserialized.class))
+                .handle(i -> normalTrackHandler((InvoiceDTOWithoutLocalDateVariableWhichForSomeReasonCanNotBeDeserialized) i.getPayload()))
                 .get();
     }
 
     @Bean
     IntegrationFlow fastTrack() {
         return IntegrationFlows.from("fasttrack-channel")
-                .transform(Transformers.fromJson(Invoice.class))
-                .handle(i -> fastTrackHandler(((Invoice) i.getPayload())))
+                .transform(Transformers.fromJson(InvoiceDTOWithoutLocalDateVariableWhichForSomeReasonCanNotBeDeserialized.class))
+                .handle(i -> fastTrackHandler(((InvoiceDTOWithoutLocalDateVariableWhichForSomeReasonCanNotBeDeserialized) i.getPayload())))
                 .get();
     }
 
-    void normalTrackHandler(Invoice invoice) {
-        if (invoice.getPurchaseOrder() == null)
-            return;
+    void normalTrackHandler(InvoiceDTOWithoutLocalDateVariableWhichForSomeReasonCanNotBeDeserialized dto) {
+        Invoice invoice = new Invoice(dto.get_id(), false, null, null, null, dto.getAmount(), PurchaseOrder.of(dto.getOrderId(), null));
 
         invoiceRepository.save(invoice);
     }
 
-    void fastTrackHandler(Invoice invoice) {
+    void fastTrackHandler(InvoiceDTOWithoutLocalDateVariableWhichForSomeReasonCanNotBeDeserialized dto) {
+        Invoice invoice = new Invoice(dto.get_id(), false, null, null, null, dto.getAmount(), PurchaseOrder.of(dto.getOrderId(), null));
         invoiceRepository.save(invoice);
-        if (invoice.getPurchaseOrder() == null)
-            return;
 
         PlantHireRequest po = phrRepository.findByPOID(invoice.getPurchaseOrder().getPurchaseOrderId());
         if (po == null)
@@ -125,7 +127,7 @@ public class InboundProcessor {
 
         if (po!=null&&po.getCost()==invoice.getAmount()){
             invoice.approve();
-            invoicingService.sendRemittanceAdvice(po.getId(), invoice.getAmount());
+            invoicingService.sendRemittanceAdvice(po.getId(), invoice.getId());
         }
     }
 }
