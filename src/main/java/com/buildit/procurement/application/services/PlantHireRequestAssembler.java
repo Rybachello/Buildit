@@ -15,6 +15,7 @@ import com.buildit.common.rest.ExtendedLink;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import static org.springframework.http.HttpMethod.DELETE;
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
 /**
@@ -39,6 +40,12 @@ public class PlantHireRequestAssembler extends ResourceAssemblerSupport<PlantHir
         //plantHireRequestDTO.setPurchaseOrderDTO(new PurchaseOrderDTO(plantHireRequest.getPurchaseOrder().getPurchaseOrderHref()));
 
         try {
+            plantHireRequestDTO.add(new ExtendedLink(
+                    linkTo(methodOn(ProcurementRestController.class)
+                            .getPlantHireRequest(plantHireRequestDTO.get_id())).toString(),
+                    "self", GET
+            ));
+
             switch (plantHireRequestDTO.getStatus()) {
                 case PENDING:
                     plantHireRequestDTO.add(new ExtendedLink(
