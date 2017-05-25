@@ -1,5 +1,6 @@
 package com.buildit.rental.application.services;
 
+import com.buildit.common.application.Constants;
 import com.buildit.common.domain.model.BusinessPeriod;
 import com.buildit.rental.application.dto.PurchaseOrderDTO;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
@@ -25,7 +26,7 @@ public class RentalService {
 
     public List<RentITPlantInventoryEntryDTO> findAvailablePlants(String plantName, LocalDate startDate, LocalDate endDate) {
         RentITPlantInventoryEntryDTO[] plants = restTemplate.getForObject(
-                "http://localhost:8090/api/inventory/plants?name={name}&startDate={start}&endDate={end}",
+                Constants.RENTIT_URL+"api/inventory/plants?name={name}&startDate={start}&endDate={end}",
                 RentITPlantInventoryEntryDTO[].class, plantName, startDate, endDate);
         return Arrays.asList(plants);
     }
@@ -35,7 +36,7 @@ public class RentalService {
         reqDTO.setPlant(new RentITPlantInventoryEntryDTO(plantId,null,null,null));
         reqDTO.setRentalPeriod(BusinessPeriod.of(startDate, endDate));
         RentITPurchaseOrderDTO rentITPurchaseOrderDTO = restTemplate.postForObject(
-                "http://localhost:8090/api/sales/orders",
+                Constants.RENTIT_URL+"api/sales/orders",
                 reqDTO,
                 RentITPurchaseOrderDTO.class);
         return rentITPurchaseOrderDTO;
@@ -43,7 +44,7 @@ public class RentalService {
     public List<PurchaseOrder> findAllPurchaseOrders()
     {
         RentITPurchaseOrderDTO rentITPurchaseOrderDTO = restTemplate.getForObject(
-                "http://localhost:8090/api/sales/orders",
+                Constants.RENTIT_URL+"api/sales/orders",
                 RentITPurchaseOrderDTO.class);
         //return rentITPurchaseOrderDTO;
         return null;
@@ -51,7 +52,7 @@ public class RentalService {
     public PurchaseOrderDTO cancelPurchaseOrder(String id)
     {
         ResponseEntity<PurchaseOrderDTO> response = restTemplate.exchange(
-                "http://localhost:8090/api/sales/orders/{id}",
+                Constants.RENTIT_URL+"api/sales/orders/{id}",
                 HttpMethod.DELETE,
                 null,
                 PurchaseOrderDTO.class,

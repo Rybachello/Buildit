@@ -1,5 +1,6 @@
 package com.buildit.invoicing.services;
 
+import com.buildit.common.application.Constants;
 import com.buildit.invoicing.application.dto.InvoiceDTO;
 import com.buildit.invoicing.domain.model.Invoice;
 import com.buildit.invoicing.domain.repository.InvoiceRepository;
@@ -35,7 +36,7 @@ public class InvoicingService {
 
     public void sendRemittanceAdvice(String POID, String invoiceId) {
         restTemplate.postForObject(
-                "http://localhost:8090/api/remittances/remittance",
+                Constants.RENTIT_URL+"api/remittances/remittance",
                 new RemittanceAdviceDTO(invoiceId, POID),
                 String.class);
     }
