@@ -1,9 +1,6 @@
 package com.buildit.procurement.domain.model;
 
 import com.buildit.common.domain.model.BusinessPeriod;
-import com.buildit.common.dto.BusinessPeriodDTO;
-import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
-import com.buildit.rental.domain.model.POStatus;
 import com.buildit.rental.domain.model.PlantInventoryEntry;
 import com.buildit.rental.domain.model.PurchaseOrder;
 import lombok.AllArgsConstructor;

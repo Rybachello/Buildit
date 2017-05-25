@@ -1,20 +1,23 @@
 package com.buildit.procurement.application.services;
 
 import com.buildit.common.application.exceptions.PlantHireRequestNotFoundException;
+import com.buildit.common.application.exceptions.PurchaseOrderStatusException;
 import com.buildit.common.domain.model.BusinessPeriod;
 import com.buildit.procurement.application.dto.PlantHireRequestDTO;
 import com.buildit.procurement.domain.model.PHRStatus;
+import com.buildit.procurement.domain.model.PlantHireRequest;
+import com.buildit.procurement.domain.repository.PlantHireRequestRepository;
 import com.buildit.procurement.infastructure.IdentifierFactory;
 import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
+import com.buildit.rental.application.dto.PurchaseOrderDTO;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
-import com.buildit.rental.application.services.RentalService;
 import com.buildit.rental.application.dto.RentITPurchaseOrderDTO;
-import com.buildit.procurement.domain.model.PlantHireRequest;
+import com.buildit.rental.application.services.RentalService;
 import com.buildit.rental.domain.model.POStatus;
 import com.buildit.rental.domain.model.PlantInventoryEntry;
 import com.buildit.rental.domain.model.PurchaseOrder;
-import com.buildit.procurement.domain.repository.PlantHireRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -101,14 +104,14 @@ public class ProcurementService {
         return updatedDTO;
     }
 
-    public PlantHireRequestDTO  cancelPlantHireRequest(PlantHireRequestDTO plantHireRequestDTO) throws PlantHireRequestNotFoundException {
+    public PlantHireRequestDTO cancelPlantHireRequest(PlantHireRequestDTO plantHireRequestDTO) throws PlantHireRequestNotFoundException {
         PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(plantHireRequestDTO.get_id());
 
         if (plantHireRequest == null) {
             throw new PlantHireRequestNotFoundException("Plant hire request not found");
         }
 
-        if (rentalService.cancelPurchaseOrder(plantHireRequest.getPurchaseOrder().getPurchaseOrderId()).getStatus()== POStatus.CLOSED) {
+        if (rentalService.cancelPurchaseOrder(plantHireRequest.getPurchaseOrder().getPurchaseOrderId()).getStatus() == POStatus.CLOSED) {
             plantHireRequest.cancel();
             plantHireRequestRepository.flush();
         }
@@ -119,15 +122,24 @@ public class ProcurementService {
     }
 
 
-    public PlantHireRequestDTO updatePlantHireRequestById(PlantHireRequestDTO updatedDTO) throws PlantHireRequestNotFoundException {
+    public PlantHireRequestDTO updatePlantHireRequestById(PlantHireRequestDTO updatedDTO) throws PurchaseOrderStatusException, PlantHireRequestNotFoundException {
 
         PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(updatedDTO.get_id());
         if (plantHireRequest == null) {
             throw new PlantHireRequestNotFoundException("Purchase order that need to update not found");
         }
-        BusinessPeriod businessPeriod = BusinessPeriod.of(updatedDTO.getRentalPeriod().getStartDate(),updatedDTO.getRentalPeriod().getEndDate());
-        PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(updatedDTO.getPlantInventoryEntry().get_id(),updatedDTO.getPlantInventoryEntry().getPlanInventoryEntryHref(), updatedDTO.getPlantInventoryEntry().getName());
-        plantHireRequest.resubmit(businessPeriod,plantInventoryEntry);
+
+        if (plantHireRequest.getStatus() == PHRStatus.ACCEPTED) {
+            ResponseEntity<PurchaseOrderDTO> responseEntity = rentalService.resubmittingPurchaseOrder(plantHireRequest.getPurchaseOrder());
+
+            if (responseEntity.getStatusCode().is4xxClientError() || responseEntity.getStatusCode().is5xxServerError()) {
+                throw new PurchaseOrderStatusException("Purchase order was rejected");
+            }
+        }
+
+        BusinessPeriod businessPeriod = BusinessPeriod.of(updatedDTO.getRentalPeriod().getStartDate(), updatedDTO.getRentalPeriod().getEndDate());
+        PlantInventoryEntry plantInventoryEntry = PlantInventoryEntry.of(updatedDTO.getPlantInventoryEntry().get_id(), updatedDTO.getPlantInventoryEntry().getPlanInventoryEntryHref(), updatedDTO.getPlantInventoryEntry().getName());
+        plantHireRequest.resubmit(businessPeriod, plantInventoryEntry);
         plantHireRequestRepository.flush(); //todo: do we need save here?
         return plantHireRequestAssembler.toResource(plantHireRequest);
 
@@ -138,4 +150,10 @@ public class ProcurementService {
         List<PlantHireRequest> phrList = plantHireRequestRepository.findAll();
         return plantHireRequestAssembler.toResources(phrList);
     }
+
+    public List<PurchaseOrderDTO> getAllPurchaseOrders(String token) {
+        return rentalService.findAllPurchaseOrders(token);
+    }
+
+
 }

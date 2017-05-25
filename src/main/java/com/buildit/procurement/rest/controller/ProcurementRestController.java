@@ -1,9 +1,11 @@
 package com.buildit.procurement.rest.controller;
 
 import com.buildit.common.application.exceptions.PlantHireRequestNotFoundException;
+import com.buildit.common.application.exceptions.PurchaseOrderStatusException;
 import com.buildit.common.dto.BusinessPeriodDTO;
 import com.buildit.procurement.application.dto.PlantHireRequestDTO;
 import com.buildit.procurement.application.services.ProcurementService;
+import com.buildit.rental.application.dto.PurchaseOrderDTO;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +51,12 @@ public class ProcurementRestController {
     public void handPlantNotFoundException(PlantHireRequestNotFoundException ex) {
     }
 
+    @ExceptionHandler(PurchaseOrderStatusException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handPurchaseOrderStatusException(PurchaseOrderStatusException ex) {
+
+    }
+
     @GetMapping("/requests")
     public List<PlantHireRequestDTO> getAllPlantHireRequests() {
         return procurementService.getAllPlantHireRequests();
@@ -72,17 +79,15 @@ public class ProcurementRestController {
         PlantHireRequestDTO plantHireRequestDTO = procurementService.getPlantHireRequestById(id);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(plantHireRequestDTO.getId().getHref()));
 
         return new ResponseEntity<PlantHireRequestDTO>(plantHireRequestDTO, headers, HttpStatus.OK);
     }
 
     @PutMapping("/requests/{id}")
-    public ResponseEntity<PlantHireRequestDTO> updatePlantHireRequest(@RequestBody PlantHireRequestDTO updatedDTO)  throws PlantHireRequestNotFoundException{
+    public ResponseEntity<PlantHireRequestDTO> updatePlantHireRequest(@RequestBody PlantHireRequestDTO updatedDTO) throws PlantHireRequestNotFoundException, PurchaseOrderStatusException {
         PlantHireRequestDTO plantHireRequestDTO = procurementService.updatePlantHireRequestById(updatedDTO);
 
-        HttpHeaders headers  = new HttpHeaders();
-        headers.setLocation(URI.create(plantHireRequestDTO.getId().getHref()));
+        HttpHeaders headers = new HttpHeaders();
 
         return new ResponseEntity<PlantHireRequestDTO>(plantHireRequestDTO, headers, HttpStatus.OK);
     }
@@ -111,4 +116,11 @@ public class ProcurementRestController {
 
         return new ResponseEntity<PlantHireRequestDTO>(updatedDTO, HttpStatus.OK);
     }
+
+    //todo: need remove this token?
+    @GetMapping("/orders")
+    public List<PurchaseOrderDTO> getAllPurchaseOrders(@RequestHeader String token) {
+        return procurementService.getAllPurchaseOrders(token);
+    }
+
 }
