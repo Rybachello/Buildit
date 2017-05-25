@@ -5,7 +5,6 @@ import com.buildit.common.application.exceptions.PurchaseOrderStatusException;
 import com.buildit.common.dto.BusinessPeriodDTO;
 import com.buildit.procurement.application.dto.PlantHireRequestDTO;
 import com.buildit.procurement.application.services.ProcurementService;
-import com.buildit.rental.application.dto.PurchaseOrderDTO;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -126,8 +125,8 @@ public class ProcurementRestController {
 
     //todo: need remove this token?
     @GetMapping("/orders")
-    public List<PurchaseOrderDTO> getAllPurchaseOrders(@RequestHeader String token) {
-        return procurementService.getAllPurchaseOrders(token);
+    public String getAllPurchaseOrders(@RequestHeader String token) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(procurementService.getAllPurchaseOrders(token));
     }
 
 }

@@ -97,7 +97,7 @@ public class ProcurementService {
 
         plantHireRequest.reject();
 
-        plantHireRequestRepository.save(plantHireRequest);
+        plantHireRequestRepository.flush();
 
         PlantHireRequestDTO updatedDTO = plantHireRequestAssembler.toResource(plantHireRequest);
 
