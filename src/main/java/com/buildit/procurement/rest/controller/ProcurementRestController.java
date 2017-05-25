@@ -7,7 +7,10 @@ import com.buildit.procurement.application.dto.PlantHireRequestDTO;
 import com.buildit.procurement.application.services.ProcurementService;
 import com.buildit.rental.application.dto.PurchaseOrderDTO;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,6 +31,10 @@ public class ProcurementRestController {
 
     @Autowired
     ProcurementService procurementService;
+
+    @Autowired
+    @Qualifier("objectMapper")
+    ObjectMapper objectMapper;
 
     @CrossOrigin
     @GetMapping("/plants")
@@ -58,8 +65,8 @@ public class ProcurementRestController {
     }
 
     @GetMapping("/requests")
-    public List<PlantHireRequestDTO> getAllPlantHireRequests() {
-        return procurementService.getAllPlantHireRequests();
+    public String getAllPlantHireRequests() throws JsonProcessingException {
+        return objectMapper.writeValueAsString(procurementService.getAllPlantHireRequests());
     }
 
     @PostMapping("/requests")

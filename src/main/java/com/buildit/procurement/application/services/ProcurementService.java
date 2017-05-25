@@ -130,7 +130,11 @@ public class ProcurementService {
         }
 
         if (plantHireRequest.getStatus() == PHRStatus.ACCEPTED) {
-            ResponseEntity<PurchaseOrderDTO> responseEntity = rentalService.resubmittingPurchaseOrder(plantHireRequest.getPurchaseOrder());
+
+            PurchaseOrderDTO dto = PurchaseOrderDTO.of(plantHireRequest.getPurchaseOrder().getPurchaseOrderId(),
+                    plantHireRequest.getRentalPeriod());
+
+            ResponseEntity<PurchaseOrderDTO> responseEntity = rentalService.resubmittingPurchaseOrder(dto);
 
             if (responseEntity.getStatusCode().is4xxClientError() || responseEntity.getStatusCode().is5xxServerError()) {
                 throw new PurchaseOrderStatusException("Purchase order was rejected");

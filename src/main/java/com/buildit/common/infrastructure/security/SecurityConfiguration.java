@@ -28,6 +28,10 @@ public class SecurityConfiguration {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.cors().and().csrf().disable()
+                    .headers()
+                    .frameOptions()
+                    .sameOrigin()
+                    .disable()
                     .authorizeRequests()
                     .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
                     .antMatchers("/api/**").authenticated()
