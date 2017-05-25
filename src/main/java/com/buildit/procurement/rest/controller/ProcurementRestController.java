@@ -102,4 +102,13 @@ public class ProcurementRestController {
 
         return new ResponseEntity<PlantHireRequestDTO>(updatedDTO, HttpStatus.OK);
     }
+
+    @DeleteMapping("/requests/{id}")
+    public ResponseEntity<PlantHireRequestDTO> cancelPlantHireRequest(@PathVariable(name = "id") String id) throws PlantHireRequestNotFoundException {
+        PlantHireRequestDTO plantHireRequestDTO = procurementService.getPlantHireRequestById(id);
+
+        PlantHireRequestDTO updatedDTO = procurementService.cancelPlantHireRequest(plantHireRequestDTO);
+
+        return new ResponseEntity<PlantHireRequestDTO>(updatedDTO, HttpStatus.OK);
+    }
 }

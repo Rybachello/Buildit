@@ -1,16 +1,20 @@
 package com.buildit.rental.application.dto;
 
+import com.buildit.common.dto.BusinessPeriodDTO;
 import com.buildit.common.rest.ResourceSupport;
+import com.buildit.rental.domain.model.POStatus;
 import lombok.Data;
+
+import java.math.BigDecimal;
 
 /**
  * Created by Rybachello on 3/22/2017.
  */
 @Data
-public class PurchaseOrderDTO extends ResourceSupport {
-    String purchaseOrderHref;
-    public PurchaseOrderDTO(String purchaseOrderHref){
-        this.purchaseOrderHref = purchaseOrderHref;
-    }
-
+public class PurchaseOrderDTO {
+    String _id;
+    POStatus status;
+    BusinessPeriodDTO rentalPeriod;
+    BigDecimal total;
+    PlantInventoryEntryDTO plant;
 }

@@ -1,10 +1,13 @@
 package com.buildit.rental.application.services;
 
 import com.buildit.common.domain.model.BusinessPeriod;
+import com.buildit.rental.application.dto.PurchaseOrderDTO;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
 import com.buildit.rental.application.dto.RentITPurchaseOrderDTO;
 import com.buildit.rental.domain.model.PurchaseOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -45,11 +48,18 @@ public class RentalService {
         //return rentITPurchaseOrderDTO;
         return null;
     }
-    public PurchaseOrder closePurchaseOrder()
+    public PurchaseOrderDTO cancelPurchaseOrder(String id)
     {
-        //todo:closing POs
-        return null;
+        ResponseEntity<PurchaseOrderDTO> response = restTemplate.exchange(
+                "http://localhost:8090/api/sales/orders/{id}",
+                HttpMethod.DELETE,
+                null,
+                PurchaseOrderDTO.class,
+                id);
+
+        return response.getBody();
     }
+
     public PurchaseOrder resubmittingPurchaseOrder()
     {
         //todo:resubmitting POs

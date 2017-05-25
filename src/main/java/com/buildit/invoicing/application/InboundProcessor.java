@@ -71,7 +71,7 @@ public class InboundProcessor {
     @Value("${gmail.password}")
     String gmailPassword;
 
-    final int mailRefreshPeriodSeconds = 6;
+    final int mailRefreshPeriodSeconds = 60;
 
     @Bean
     IntegrationFlow inboundMail() {

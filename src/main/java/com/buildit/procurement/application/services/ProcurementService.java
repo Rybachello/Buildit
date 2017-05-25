@@ -10,6 +10,7 @@ import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
 import com.buildit.rental.application.services.RentalService;
 import com.buildit.rental.application.dto.RentITPurchaseOrderDTO;
 import com.buildit.procurement.domain.model.PlantHireRequest;
+import com.buildit.rental.domain.model.POStatus;
 import com.buildit.rental.domain.model.PlantInventoryEntry;
 import com.buildit.rental.domain.model.PurchaseOrder;
 import com.buildit.procurement.domain.repository.PlantHireRequestRepository;
@@ -94,6 +95,23 @@ public class ProcurementService {
         plantHireRequest.reject();
 
         plantHireRequestRepository.save(plantHireRequest);
+
+        PlantHireRequestDTO updatedDTO = plantHireRequestAssembler.toResource(plantHireRequest);
+
+        return updatedDTO;
+    }
+
+    public PlantHireRequestDTO cancelPlantHireRequest(PlantHireRequestDTO plantHireRequestDTO) throws PlantHireRequestNotFoundException {
+        PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(plantHireRequestDTO.get_id());
+
+        if (plantHireRequest == null) {
+            throw new PlantHireRequestNotFoundException("Plant hire request not found");
+        }
+
+        if (rentalService.cancelPurchaseOrder(plantHireRequest.getPurchaseOrder().getPurchaseOrderId()).getStatus()== POStatus.CLOSED) {
+            plantHireRequest.cancel();
+            plantHireRequestRepository.flush();
+        }
 
         PlantHireRequestDTO updatedDTO = plantHireRequestAssembler.toResource(plantHireRequest);
 

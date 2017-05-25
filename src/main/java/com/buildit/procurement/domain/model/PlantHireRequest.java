@@ -66,6 +66,10 @@ public class PlantHireRequest {
         this.status = PHRStatus.REJECTED;
     }
 
+    public void cancel() {
+        this.status = PHRStatus.CLOSED;
+    }
+
     public void resubmit(BusinessPeriod rentalPeriod, PlantInventoryEntry plantInventoryEntry) {
         this.rentalPeriod = rentalPeriod;
         this.plantInventoryEntry = plantInventoryEntry;
