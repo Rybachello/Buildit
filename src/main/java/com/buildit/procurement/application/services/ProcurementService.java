@@ -79,7 +79,7 @@ public class ProcurementService {
                 phreq.getRentalPeriod().getStartDate(),
                 phreq.getRentalPeriod().getEndDate());
         phreq.updateStatus(PHRStatus.ACCEPTED);
-        phreq.assignPO(PurchaseOrder.of(rentITPurchaseOrderDTO.get_id(), rentITPurchaseOrderDTO.getId().getHref()));
+        phreq.assignPO(PurchaseOrder.of(rentITPurchaseOrderDTO.get_id(), null /*rentITPurchaseOrderDTO.getId().getHref()*/));
         plantHireRequestRepository.flush();
 
         return plantHireRequestAssembler.toResource(phreq);
@@ -101,7 +101,7 @@ public class ProcurementService {
         return updatedDTO;
     }
 
-    public PlantHireRequestDTO cancelPlantHireRequest(PlantHireRequestDTO plantHireRequestDTO) throws PlantHireRequestNotFoundException {
+    public PlantHireRequestDTO  cancelPlantHireRequest(PlantHireRequestDTO plantHireRequestDTO) throws PlantHireRequestNotFoundException {
         PlantHireRequest plantHireRequest = plantHireRequestRepository.getOne(plantHireRequestDTO.get_id());
 
         if (plantHireRequest == null) {
