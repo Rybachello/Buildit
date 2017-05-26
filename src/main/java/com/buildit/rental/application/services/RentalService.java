@@ -5,8 +5,8 @@ import com.buildit.common.domain.model.BusinessPeriod;
 import com.buildit.rental.application.dto.PurchaseOrderDTO;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
 import com.buildit.rental.application.dto.RentITPurchaseOrderDTO;
-import com.buildit.rental.domain.model.PurchaseOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -43,13 +43,13 @@ public class RentalService {
         return rentITPurchaseOrderDTO;
     }
 
-    public List<PurchaseOrder> findAllPurchaseOrders()
+    //todo: need to test this
+    public List<PurchaseOrderDTO> findAllPurchaseOrders(String token)
     {
-        RentITPurchaseOrderDTO rentITPurchaseOrderDTO = restTemplate.getForObject(
+        PurchaseOrderDTO[] purchaseOrderDTOs = restTemplate.getForObject(
                 Constants.RENTIT_URL+"api/sales/orders",
-                RentITPurchaseOrderDTO.class);
-        //return rentITPurchaseOrderDTO;
-        return null;
+                              PurchaseOrderDTO[].class);
+        return Arrays.asList(purchaseOrderDTOs);
     }
     public PurchaseOrderDTO cancelPurchaseOrder(String id)
     {
@@ -63,9 +63,14 @@ public class RentalService {
         return response.getBody();
     }
 
-    public PurchaseOrder resubmittingPurchaseOrder()
+    public ResponseEntity<PurchaseOrderDTO> resubmittingPurchaseOrder(PurchaseOrderDTO purchaseOrder)
     {
-        //todo:resubmitting POs
-        return null;
+        ResponseEntity<PurchaseOrderDTO> response = restTemplate.exchange(
+                Constants.RENTIT_URL+"/api/sales/orders",
+                HttpMethod.PUT,
+                new HttpEntity<>(purchaseOrder),
+                PurchaseOrderDTO.class);
+
+        return response;
     }
 }

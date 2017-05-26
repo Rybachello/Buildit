@@ -33,10 +33,12 @@ public class PlantHireRequestAssembler extends ResourceAssemblerSupport<PlantHir
     @Override
     public PlantHireRequestDTO toResource(PlantHireRequest plantHireRequest) {
         PlantHireRequestDTO plantHireRequestDTO = new PlantHireRequestDTO();
+
         plantHireRequestDTO.set_id(plantHireRequest.getId());
         plantHireRequestDTO.setStatus(plantHireRequest.getStatus());
         plantHireRequestDTO.setRentalPeriod(BusinessPeriodDTO.of(plantHireRequest.getRentalPeriod().getStartDate(), plantHireRequest.getRentalPeriod().getEndDate()));
         plantHireRequestDTO.setPlantInventoryEntry(new PlantInventoryEntryDTO(plantHireRequest.getId(), plantHireRequest.getPlantInventoryEntry().getPlantInventoryEntryName(), plantHireRequest.getPlantInventoryEntry().getPlantInventoryEntryHref()));
+
         //plantHireRequestDTO.setPurchaseOrderDTO(new PurchaseOrderDTO(plantHireRequest.getPurchaseOrder().getPurchaseOrderHref()));
 
         try {
