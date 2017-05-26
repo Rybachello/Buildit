@@ -94,6 +94,7 @@ public class ProcurementApplication {
                     String authority = map.get("authority");
                     if (authority != null && authority.equals(uri.getAuthority())) {
                         result.getHeaders().add("token", map.get("authorization"));
+                        result.getHeaders().add("Authorization", map.get("authorization"));
                         break;
                     }
                 }

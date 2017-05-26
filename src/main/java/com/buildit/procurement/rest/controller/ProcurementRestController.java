@@ -64,7 +64,7 @@ public class ProcurementRestController {
                 period.getStartDate(),
                 period.getEndDate());
 
-        return new ResponseEntity<PlantHireRequestDTO>(plantHireRequest, HttpStatus.OK);
+        return new ResponseEntity<>(plantHireRequest, HttpStatus.OK);
     }
 
     @GetMapping("/requests/{id}")

@@ -12,4 +12,5 @@ public class RentITPlantInventoryEntryDTO extends ResourceSupport{
     String name;
     String description;
     BigDecimal price;
+    String supplier;
 }

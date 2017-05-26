@@ -28,12 +28,13 @@ public class RentalService {
         RentITPlantInventoryEntryDTO[] plants = restTemplate.getForObject(
                 Constants.RENTIT_URL+"api/inventory/plants?name={name}&startDate={start}&endDate={end}",
                 RentITPlantInventoryEntryDTO[].class, plantName, startDate, endDate);
+        Arrays.stream(plants).forEach(i->i.setSupplier("t13"));
         return Arrays.asList(plants);
     }
 
     public RentITPurchaseOrderDTO createPurchaseOrder(String plantId, LocalDate startDate, LocalDate endDate) {
         RentITPurchaseOrderDTO reqDTO = new RentITPurchaseOrderDTO();
-        reqDTO.setPlant(new RentITPlantInventoryEntryDTO(plantId,null,null,null));
+        reqDTO.setPlant(new RentITPlantInventoryEntryDTO(plantId,null,null,null, null));
         reqDTO.setRentalPeriod(BusinessPeriod.of(startDate, endDate));
         RentITPurchaseOrderDTO rentITPurchaseOrderDTO = restTemplate.postForObject(
                 Constants.RENTIT_URL+"api/sales/orders",
@@ -41,6 +42,7 @@ public class RentalService {
                 RentITPurchaseOrderDTO.class);
         return rentITPurchaseOrderDTO;
     }
+
     public List<PurchaseOrder> findAllPurchaseOrders()
     {
         RentITPurchaseOrderDTO rentITPurchaseOrderDTO = restTemplate.getForObject(

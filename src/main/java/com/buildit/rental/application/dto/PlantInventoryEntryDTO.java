@@ -15,6 +15,8 @@ public class PlantInventoryEntryDTO extends ResourceSupport{
 
     String planInventoryEntryHref;
 
+    String supplier;
+
     public PlantInventoryEntryDTO(){}
 
     public PlantInventoryEntryDTO(String id, String name, String planInventoryEntryHref){

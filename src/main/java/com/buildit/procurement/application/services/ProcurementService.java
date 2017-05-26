@@ -5,8 +5,11 @@ import com.buildit.common.domain.model.BusinessPeriod;
 import com.buildit.procurement.application.dto.PlantHireRequestDTO;
 import com.buildit.procurement.domain.model.PHRStatus;
 import com.buildit.procurement.infastructure.IdentifierFactory;
+import com.buildit.rental.application.RentalMediator;
+import com.buildit.rental.application.dto.KopylashykPlantInventoryEntryDTO;
 import com.buildit.rental.application.dto.PlantInventoryEntryDTO;
 import com.buildit.rental.application.dto.RentITPlantInventoryEntryDTO;
+import com.buildit.rental.application.services.KopylashykRentalService;
 import com.buildit.rental.application.services.RentalService;
 import com.buildit.rental.application.dto.RentITPurchaseOrderDTO;
 import com.buildit.procurement.domain.model.PlantHireRequest;
@@ -30,12 +33,14 @@ public class ProcurementService {
     @Autowired
     RentalService rentalService;
     @Autowired
+    RentalMediator rentalMediator;
+    @Autowired
     PlantHireRequestRepository plantHireRequestRepository;
     @Autowired
     PlantHireRequestAssembler plantHireRequestAssembler;
 
     public List<RentITPlantInventoryEntryDTO> findAvailablePlants(String name, LocalDate startDate, LocalDate endDate) {
-        return rentalService.findAvailablePlants(name, startDate, endDate);
+        return rentalMediator.findAvailablePlants(name, startDate, endDate);
     }
 
     public PlantHireRequestDTO getPlantHireRequestById(String id) throws PlantHireRequestNotFoundException {
@@ -61,7 +66,7 @@ public class ProcurementService {
                 plantInventoryEntry,
                 PurchaseOrder.of(null, null),
                 "",
-                "",
+                plant.getSupplier(),
                 "",
                 null,
                 null,
@@ -74,10 +79,11 @@ public class ProcurementService {
     public PlantHireRequestDTO acceptPlantHireRequest(String phrId) {
 
         PlantHireRequest phreq = plantHireRequestRepository.findOne(phrId);
-        RentITPurchaseOrderDTO rentITPurchaseOrderDTO = rentalService.createPurchaseOrder(
+        RentITPurchaseOrderDTO rentITPurchaseOrderDTO = rentalMediator.createPurchaseOrder(
                 phreq.getPlantInventoryEntry().get_id(),
                 phreq.getRentalPeriod().getStartDate(),
-                phreq.getRentalPeriod().getEndDate());
+                phreq.getRentalPeriod().getEndDate(),
+                phreq.getSupplier());
         phreq.updateStatus(PHRStatus.ACCEPTED);
         phreq.assignPO(PurchaseOrder.of(rentITPurchaseOrderDTO.get_id(), null /*rentITPurchaseOrderDTO.getId().getHref()*/));
         plantHireRequestRepository.flush();

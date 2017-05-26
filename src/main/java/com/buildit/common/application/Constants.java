@@ -5,4 +5,5 @@ package com.buildit.common.application;
  */
 public class Constants {
     public static final String RENTIT_URL = "http://193.40.11.162:80/";
+    public static final String KOPYLASHYK_RENTIT_URL = "http://193.40.11.138:80/";
 }
