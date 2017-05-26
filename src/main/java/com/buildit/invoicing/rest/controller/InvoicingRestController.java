@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Created by stepan on 03/05/2017.
  */
-@CrossOrigin
+@CrossOrigin()
 @RestController
 @RequestMapping("/api/invoicing")
 public class InvoicingRestController {
