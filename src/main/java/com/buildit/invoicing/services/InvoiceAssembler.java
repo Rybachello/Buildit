@@ -32,6 +32,7 @@ public class InvoiceAssembler extends ResourceAssemblerSupport<Invoice, InvoiceD
         invoiceDTO.set_id(invoice.getId());
         invoiceDTO.setDueDate(invoice.getDueDate());
         invoiceDTO.setAmount(invoice.getAmount());
+        invoiceDTO.setOrderId(invoice.getPurchaseOrder().getPurchaseOrderId());
 
         try {
             if (!invoice.isApproved()) {

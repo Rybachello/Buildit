@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.BodyPart;
 import javax.mail.Multipart;
 import javax.mail.internet.MimeMessage;
+import java.time.LocalDate;
 
 /**
  * Created by Vasiliy on 2017-05-03.
@@ -71,7 +72,7 @@ public class InboundProcessor {
     @Value("${gmail.password}")
     String gmailPassword;
 
-    final int mailRefreshPeriodSeconds = 60;
+    final int mailRefreshPeriodSeconds = 30;
 
     @Bean
     IntegrationFlow inboundMail() {
@@ -112,13 +113,16 @@ public class InboundProcessor {
     }
 
     void normalTrackHandler(InvoiceDTOWithoutLocalDateVariableWhichForSomeReasonCanNotBeDeserialized dto) {
-        Invoice invoice = new Invoice(dto.get_id(), false, null, null, null, dto.getAmount(), PurchaseOrder.of(dto.getOrderId(), null));
+        LocalDate dueDate = LocalDate.parse(dto.getDueDate());
+
+        Invoice invoice = new Invoice(dto.get_id(), false, null, dueDate,null, dto.getAmount(), PurchaseOrder.of(dto.getOrderId(), null));
 
         invoiceRepository.save(invoice);
     }
 
     void fastTrackHandler(InvoiceDTOWithoutLocalDateVariableWhichForSomeReasonCanNotBeDeserialized dto) {
-        Invoice invoice = new Invoice(dto.get_id(), false, null, null, null, dto.getAmount(), PurchaseOrder.of(dto.getOrderId(), null));
+        LocalDate dueDate = LocalDate.parse(dto.getDueDate());
+        Invoice invoice = new Invoice(dto.get_id(), false, null, dueDate, null, dto.getAmount(), PurchaseOrder.of(dto.getOrderId(), null));
         invoiceRepository.save(invoice);
 
         PlantHireRequest po = phrRepository.findByPOID(invoice.getPurchaseOrder().getPurchaseOrderId());
