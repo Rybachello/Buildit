@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by stepan on 03/05/2017.
  */
-@CrossOrigin
+@CrossOrigin()
 @RestController
 @RequestMapping("/api/invoicing")
 public class InvoicingRestController {

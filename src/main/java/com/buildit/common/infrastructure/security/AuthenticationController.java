@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin()
 public class AuthenticationController {
     @GetMapping("/api/authenticate")
     public List<String> authenticate() {
