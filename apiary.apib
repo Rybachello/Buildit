@@ -1,0 +1,368 @@
+FORMAT: 1A
+HOST: http://193.40.11.154:80/api
+
+# BuildIt
+
+
+Team 13 members:
+- Stepan Bolotnikov
+- Mykola Rybak
+- Artem Zaitsev
+- Vasiliy Skydanienko
+
+BuildIT API:
+
+## All Plant hire request actions: [/procurements]
+### Find available plants [GET/plants]
+
++ Parameters 
+    + name-ex
+    + startDate-2017-05-30
+    + endDate-2017-05-30
++ Autorization
+    +Username:siteEngineer
++ Response 200 (application/json)
+
+    [
+        {
+            "_id":"1",
+            "name":"Mini excavator",
+            "description":"1.5 Tonne Mini excavator",
+            "price":150.00,
+            "supplier":"t13",
+            "links":[],
+            "_xlinks":[
+                {
+                "rel":null,
+                "href":"http://193.40.11.162/api/inventory/plants/1",
+                "method":"GET",
+                "_rel":"self"
+                }
+            ]
+        }
+]
+### Get all plants hire request [GET/request]
+
++ Response 200 (application/json)
+
+    [
+        {
+            "_id": "85cbec1c-4a8e-4a74-af5f-ba7c204a6637",
+            "status": "ACCEPTED",
+            "rentalPeriod": {
+            "startDate": "2017-05-27",
+            "endDate": "2017-05-31",
+            "_xlinks": []
+            },
+            "plantInventoryEntry": {
+                "_id": "85cbec1c-4a8e-4a74-af5f-ba7c204a6637",
+                "name": "Mini excavator",
+                "planInventoryEntryHref": null,
+                "supplier": null,
+                "_xlinks": []
+            },
+            "_xlinks": [
+                {
+                    "href": "http://193.40.11.154/api/procurements/requests/85cbec1c-4a8e-4a74-af5f-ba7c204a6637",
+                    "method": "GET",
+                    "_rel": "self"
+                }
+            ]
+        }
+    ]
+
+### Create a new plant hire request [POST/request]
+
++ Request 200 (application/json)
+
+        {
+        "plantInventoryEntry": {
+            "_id":"1",
+            "_links": {
+                "self": {
+                "href":"http://localhost:8090/api/inventory/plants/123"
+                }
+            }
+        },
+        "rentalPeriod": {
+                "startDate": "2021-04-22",
+                "endDate": "2021-05-24"
+        },
+        "constructionSite":"Tartu"
+        }
+
++ Response (application/json)
+
+        {
+            "_id": "14b34b5b-9651-414c-b90f-a1a9814afbe1",
+            "status": "PENDING",
+            "rentalPeriod": {
+                "startDate": "2021-04-22",
+                "endDate": "2021-05-24",
+                "_xlinks": []
+            },
+            "plantInventoryEntry": {
+                "_id": "14b34b5b-9651-414c-b90f-a1a9814afbe1",
+                "name": null,
+                "planInventoryEntryHref": null,
+                "supplier": null,
+                "_xlinks": []
+            },
+            "_xlinks": [
+            {
+                "href": "http://localhost:8080/api/procurements/requests/14b34b5b-9651-414c-b90f-a1a9814afbe1",
+                "method": "GET",
+                "_rel": "self"
+            },
+            {
+            "href": "http://localhost:8080/api/procurements/requests/14b34b5b-9651-414c-b90f-a1a9814afbe1/approve",
+            "method": "POST",
+            "_rel": "approve"
+            },
+            {
+            "href": "http://localhost:8080/api/procurements/requests/14b34b5b-9651-414c-b90f-a1a9814afbe1/approve",
+            "method": "DELETE",
+            "_rel": "reject"
+            }
+        ]
+    }
+
+### Get plant hire request by id [GET/request/{id}]
++ Parameters
+    + id - 14b34b5b-9651-414c-b90f-a1a9814afbe1
++ Response 200 (application/json)
+
+        {
+        "_id": "14b34b5b-9651-414c-b90f-a1a9814afbe1",
+        "status": "PENDING",
+        "rentalPeriod": {
+            "startDate": "2021-04-22",
+            "endDate": "2021-05-24",
+            "_xlinks": []
+        },
+        "plantInventoryEntry": {
+            "_id": "14b34b5b-9651-414c-b90f-a1a9814afbe1",
+            "name": null,
+            "planInventoryEntryHref": null,
+            "supplier": null,
+            "_xlinks": []
+        },
+        "_xlinks": [
+        {
+        "href": "http://localhost:8080/api/procurements/requests/14b34b5b-9651-414c-b90f-a1a9814afbe1",
+        "method": "GET",
+        "_rel": "self"
+        },
+        {
+        "href": "http://localhost:8080/api/procurements/requests/14b34b5b-9651-414c-b90f-a1a9814afbe1/approve",
+        "method": "POST",
+        "_rel": "approve"
+        },
+        {
+        "href": "http://localhost:8080/api/procurements/requests/14b34b5b-9651-414c-b90f-a1a9814afbe1/approve",
+        "method": "DELETE",
+        "_rel": "reject"
+        }
+    ]
+}
+
+### Accept Plant Hire Request[POST/request/{id}/approve]
++ Parameters
+    + id - 14b34b5b-9651-414c-b90f-a1a9814afbe1
++ Response 200 (application/json)
+
+        {
+            "_id": "a0836a18-f0ea-466a-997d-4cfa431c15ad",
+            "status": "ACCEPTED",
+            "rentalPeriod": {
+                "startDate": "2017-05-30",
+                "endDate": "2017-05-31",
+                "_xlinks": []
+            },
+            "plantInventoryEntry": {
+                "_id": "a0836a18-f0ea-466a-997d-4cfa431c15ad",
+                "name": "Mini excavator",
+                "planInventoryEntryHref": null,
+                "supplier": null,
+                "_xlinks": []
+            },
+            "_xlinks": [
+            {
+                "href": "http://193.40.11.154/api/procurements/requests/a0836a18-f0ea-466a-997d-4cfa431c15ad",
+                "method": "GET",
+                "_rel": "self"
+            }
+        ]
+    }
+
+### Reject Plant Hire Request [DELETE/requests/{id}/approve]
++ Parameters
+    + id - 14b34b5b-9651-414c-b90f-a1a9814afbe1
++ Response 200 (application/json)
+    
+        {
+            "_id": "a0512d91-8a3a-4cba-a3ee-4bd1e2ff309f",
+            "status": "REJECTED",
+            "rentalPeriod": {
+                "startDate": "2017-05-30",
+                "endDate": "2017-05-31",
+                "_xlinks": []
+            },
+            "plantInventoryEntry": {
+                "_id": "a0512d91-8a3a-4cba-a3ee-4bd1e2ff309f",
+                "name": "Mini excavator",
+                "planInventoryEntryHref": null,
+                "supplier": null,
+                "_xlinks": []
+            },
+            "_xlinks": [
+            {
+                "href": "http://193.40.11.154/api/procurements/requests/a0512d91-8a3a-4cba-a3ee-4bd1e2ff309f",
+                "method": "GET",
+                "_rel": "self"
+            }
+        ]
+    }
+
+### Resubmit Plant Hire Request[PUT/request/{id}]
+
++ Request (application/json)
+
+        {
+        "_id": "85cbec1c-4a8e-4a74-af5f-ba7c204a6637",
+        "status": "ACCEPTED",
+        "rentalPeriod": {
+            "startDate": "2019-05-27",
+            "endDate": "2019-05-31",
+            "_xlinks": []
+        },
+        "plantInventoryEntry": {
+            "_id": "85cbec1c-4a8e-4a74-af5f-ba7c204a6637",
+            "name": "Mini excavator",
+            "planInventoryEntryHref": null,
+            "supplier": null,
+            "_xlinks": []
+        }
+        ]
+    }
+
++ Response 200
+
+        {
+        "_id": "85cbec1c-4a8e-4a74-af5f-ba7c204a6637",
+        "status": "ACCEPTED",
+        "rentalPeriod": {
+            "startDate": "2019-05-27",
+            "endDate": "2019-05-31",
+            "_xlinks": []
+        },
+        "plantInventoryEntry": {
+            "_id": "85cbec1c-4a8e-4a74-af5f-ba7c204a6637",
+            "name": "Mini excavator",
+            "planInventoryEntryHref": null,
+            "supplier": null,
+            "_xlinks": []
+        },
+        "_xlinks": [
+        {
+            "href": "http://193.40.11.154/api/procurements/requests/85cbec1c-4a8e-4a74-af5f-ba7c204a6637",
+            "method": "GET",
+            "_rel": "self"
+        }
+    ] 
+}
+
+## Get All Orders[GET/procurements/orders]
+
++ Response 200
+
+    [
+        {
+            "_id": "123",
+            "status": "OPEN",
+            "rentalPeriod": {
+                "startDate": "2017-04-15",
+                "endDate": "2017-05-15",
+                "_xlinks": []
+            },
+            "total": 1300,
+            "plant": {
+                "_id": "1",
+                "name": "Mini excavator",
+                "planInventoryEntryHref": null,
+                "supplier": null,
+                "_xlinks": [
+                {
+                    "href": "http://193.40.11.162/api/inventory/plants/1",
+                    "method": "GET",
+                    "_rel": "self"
+                }
+                ]
+            },
+            "constructionSite": Tartu
+        },
+        {
+            "_id": "124",
+            "status": "OPEN",
+            "rentalPeriod": {
+                "startDate": "2017-05-15",
+                "endDate": "2017-05-25",
+                "_xlinks": []
+            },
+            "total": 1325,
+            "plant": {
+                "_id": "2",
+                "name": "Mini excavator",
+                "planInventoryEntryHref": null,
+                "supplier": null,
+                "_xlinks": [
+                {
+                    "href": "http://193.40.11.162/api/inventory/plants/2",
+                    "method": "GET",
+                    "_rel": "self"
+                }
+            ]
+            },
+            "constructionSite": Lviv
+        }
+    ]
+
+## All Invoices Action[/invoicing]
+
+
+
+## Invoices Actions [/invoices]
+
+### Get all invoices[GET/invoices]
+
+ + Response 200 (apllication/json)
+
+        [
+          {
+            "_id": "cd5c5981-34a5-4cc5-9adb-04fce479019a",
+            "orderId": "79c51c90-814a-4db9-a24a-ce82664ffb8b",
+            "dueDate": "2017-06-26",
+            "amount": 1000,
+            "_xlinks": []
+            }
+        ]
+
+### Approve Invoice[POST/invoices/{id}/approve]
+
++ Parameters
+    + id - 14b34b5b-9651-414c-b90f-a1a9814afbe1
++ Response 200 (application/json)
+
+        {
+            "_id": "cd5c5981-34a5-4cc5-9adb-04fce479019a",
+            "orderId": "79c51c90-814a-4db9-a24a-ce82664ffb8b",
+            "dueDate": "2017-06-26",
+            "amount": 1000,
+            "_xlinks": []
+        }
+ + Response 404 (application/json)
+ 
+
+        {
+            "msg":"Invoice not found"
+        }
